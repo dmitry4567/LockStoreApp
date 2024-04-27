@@ -1,9 +1,8 @@
-import 'package:ch_app/favorites/favorites_widget.dart';
-import 'package:ch_app/flutter_flow/nav/nav.dart';
-import 'package:ch_app/home/home_widget.dart';
-import 'package:ch_app/layout/adaptive.dart';
-import 'package:ch_app/profile/profile_widget.dart';
-import 'package:expandable/expandable.dart';
+import 'package:LockStore/favorites/favorites_widget.dart';
+import 'package:LockStore/flutter_flow/nav/nav.dart';
+import 'package:LockStore/home/home_widget.dart';
+import 'package:LockStore/layout/adaptive.dart';
+import 'package:LockStore/profile/profile_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

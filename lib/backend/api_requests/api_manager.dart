@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
-import 'package:ch_app/flutter_flow/flutter_flow_util.dart';
-import 'package:ch_app/main.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
+import 'package:LockStore/main.dart';
 import 'package:dio/dio.dart';
 
 enum ApiCallType {

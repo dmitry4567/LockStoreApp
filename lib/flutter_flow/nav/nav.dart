@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ch_app/flutter_flow/flutter_flow_util.dart';
-import 'package:ch_app/navigation_bar_widget.dart';
-import 'package:ch_app/sign_in/sign_in_widget.dart';
-import 'package:ch_app/sign_up/sign_up_widget.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
+import 'package:LockStore/navigation_bar_widget.dart';
+import 'package:LockStore/sign_in/sign_in_widget.dart';
+import 'package:LockStore/sign_up/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';

@@ -1,5 +1,5 @@
-import 'package:ch_app/sign_in/bloc/login_bloc.dart';
-import 'package:ch_app/sign_up/bloc/register_bloc.dart';
+import 'package:LockStore/sign_in/bloc/login_bloc.dart';
+import 'package:LockStore/sign_up/bloc/register_bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ],
       child: MaterialApp.router(
           routerConfig: _router,
-          title: 'RUPL',
+          title: 'LockStore',
           localizationsDelegates: const [
             FFLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,

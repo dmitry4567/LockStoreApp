@@ -1,6 +1,6 @@
-import 'package:ch_app/flutter_flow/flutter_flow_widgets.dart';
-import 'package:ch_app/index.dart';
-import 'package:ch_app/sign_in/bloc/login_bloc.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
+import 'package:LockStore/index.dart';
+import 'package:LockStore/sign_in/bloc/login_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../flutter_flow/flutter_flow_theme.dart';

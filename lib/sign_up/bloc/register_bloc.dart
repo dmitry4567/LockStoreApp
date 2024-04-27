@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:ch_app/backend/api_requests/api_calls.dart';
-import 'package:ch_app/flutter_flow/flutter_flow_util.dart';
-import 'package:ch_app/main.dart';
+import 'package:LockStore/backend/api_requests/api_calls.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
+import 'package:LockStore/main.dart';
 import 'package:equatable/equatable.dart';
 import '../../flutter_flow/custom_functions.dart' as functions;
 

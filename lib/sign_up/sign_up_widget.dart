@@ -1,5 +1,5 @@
-import 'package:ch_app/flutter_flow/flutter_flow_util.dart';
-import 'package:ch_app/sign_up/bloc/register_bloc.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
+import 'package:LockStore/sign_up/bloc/register_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../flutter_flow/flutter_flow_theme.dart';

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ch_app/main.dart';
+import 'package:LockStore/main.dart';
 import 'package:dio/dio.dart';
 import 'package:scope_function/scope_function.dart';
 import 'api_manager.dart';

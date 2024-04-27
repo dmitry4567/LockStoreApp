@@ -1,4 +1,4 @@
-import 'package:ch_app/flutter_flow/flutter_flow_theme.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedButton extends StatefulWidget {

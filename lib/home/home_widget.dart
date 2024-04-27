@@ -1,11 +1,9 @@
-import 'package:ch_app/backend/api_requests/api_calls.dart';
-import 'package:ch_app/flutter_flow/flutter_flow_util.dart';
-import 'package:ch_app/flutter_flow/flutter_flow_widgets.dart';
-import 'package:ch_app/home/model.dart';
-import 'package:ch_app/home/widgets/card.dart';
-import 'package:ch_app/layout/adaptive.dart';
+import 'package:LockStore/backend/api_requests/api_calls.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
+import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
+import 'package:LockStore/home/model.dart';
+import 'package:LockStore/layout/adaptive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../flutter_flow/custom_functions.dart' as functions;
 
 class HomeWidget extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:ch_app/home/model.dart';
+import 'package:LockStore/home/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
