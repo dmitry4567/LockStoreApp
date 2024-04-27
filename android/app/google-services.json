@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "569390148555",
+    "project_id": "fpoint-976d9",
+    "storage_bucket": "fpoint-976d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569390148555:android:9efec8e62feae99831644e",
+        "android_client_info": {
+          "package_name": "com.design.FPoint"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnoCvoVRBRKItg2-xiHq6SA08OTBedNUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
