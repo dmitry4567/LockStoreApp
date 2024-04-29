@@ -31,6 +31,7 @@ dependencies:
   timeago: ^3.6.1
   json_path: ^0.7.1
   auto_size_text: ^3.0.0
+  responsive_grid: ^2.4.4
 
   intl: any
   bloc: ^8.1.3
