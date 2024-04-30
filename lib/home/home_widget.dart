@@ -5,13 +5,10 @@ import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
 import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
 import 'package:LockStore/home/model.dart';
 import 'package:LockStore/layout/adaptive.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:expandable/expandable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 import '../../flutter_flow/custom_functions.dart' as functions;
 
 class HomeWidget extends StatefulWidget {
@@ -25,20 +22,47 @@ class _HomeWidgetState extends State<HomeWidget> {
   PageController controller = PageController(initialPage: 0);
   int _activePage = 0;
 
-  Future<dynamic> getData() async {
-    final response =
-        await GetAllProject.call(token: FFAppState().userAuthToken);
+  Future<dynamic> getDataProduct() async {
+    // final response = await GetAllProduct.call();
 
-    if (functions.resultCodeSuccess(getJsonField(
-      (response.jsonBody ?? ''),
-      r'''$.status''',
-    ))) {
-      var projects = getJsonField(response.jsonBody ?? '', r'''$.data''');
+    // log(response.toString());
 
-      return projects.map((project) => Project.fromJson(project)).toList();
+    const String url =
+        'https://2548-188-114-50-157.ngrok-free.app/api/products';
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': '*/*'
+      });
+
+      if (response.statusCode == 200) {
+        // Парсинг JSON-ответа
+        var projects = getJsonField(response.body, r'''$''');
+
+        log(projects.toString());
+      } else {
+        print('Ошибка HTTP: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Ошибка: $error');
     }
 
-    return null;
+    // var projects = getJsonField(response.jsonBody ?? '', r'''$.data''');
+
+    // return projects.map((project) => Product.fromJson(project)).toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -70,7 +94,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     _activePage = page;
                                   });
                                 },
-                                children: [
+                                children: const [
                                   PromoWidgetMobileDesktop(),
                                   PromoWidgetMobileDesktop(),
                                   PromoWidgetMobileDesktop(),
@@ -133,16 +157,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                           ),
                           const Spacer(),
                           InkWell(
-                            onTap: () {
-                              if (_activePage < 2) {
-                                setState(() {
-                                  _activePage += 1;
-                                  controller.nextPage(
-                                    duration: Durations.long1,
-                                    curve: Curves.ease,
-                                  );
-                                });
-                              }
+                            onTap: () async {
+                              // if (_activePage < 2) {
+                              //   setState(() {
+                              //     _activePage += 1;
+                              //     controller.nextPage(
+                              //       duration: Durations.long1,
+                              //       curve: Curves.ease,
+                              //     );
+                              //   });
+                              // }
+                              await getDataProduct();
                             },
                             customBorder: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100),
@@ -454,21 +479,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 color: Colors.black.withOpacity(0.02),
                                 child: Stack(
                                   children: [
-                                    Expanded(
-                                      child: Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child: Image.asset(
-                                          "assets/images/lock2.png",
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                        ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Image.asset(
+                                        "assets/images/lock2.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
                                       ),
                                     ),
                                     Positioned(
@@ -478,7 +499,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Для отелей",
                                             style: TextStyle(
                                               color: Color(0xff161C24),
@@ -525,21 +546,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 color: Colors.black.withOpacity(0.02),
                                 child: Stack(
                                   children: [
-                                    Expanded(
-                                      child: Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child: Image.asset(
-                                          "assets/images/lock3.png",
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                        ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Image.asset(
+                                        "assets/images/lock3.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
                                       ),
                                     ),
                                     Positioned(
@@ -549,7 +566,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Для шкафчиков",
                                             style: TextStyle(
                                               color: Color(0xff161C24),
@@ -596,21 +613,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 color: Colors.black.withOpacity(0.02),
                                 child: Stack(
                                   children: [
-                                    Expanded(
-                                      child: Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child: Image.asset(
-                                          "assets/images/lock4.png",
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                        ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Image.asset(
+                                        "assets/images/lock4.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
                                       ),
                                     ),
                                     Positioned(
@@ -620,7 +633,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Для офисов",
                                             style: TextStyle(
                                               color: Color(0xff161C24),
@@ -667,21 +680,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 color: Colors.black.withOpacity(0.02),
                                 child: Stack(
                                   children: [
-                                    Expanded(
-                                      child: Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child: Image.asset(
-                                          "assets/images/lock5.png",
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3,
-                                        ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Image.asset(
+                                        "assets/images/lock5.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
                                       ),
                                     ),
                                     Positioned(
@@ -691,7 +700,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Замки для дома",
                                             style: TextStyle(
                                               color: Color(0xff161C24),
@@ -738,348 +747,1817 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ],
                       ),
                     ),
+                    Container(
+                      width: double.infinity,
+                      height: 484,
+                      color: Colors.white,
+                      padding: const EdgeInsets.only(
+                        top: 40,
+                        bottom: 36,
+                        left: 100,
+                        right: 100,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Наши популярные продукты",
+                            style: TextStyle(
+                              color: Color(0xff161C24),
+                              fontSize: 42,
+                              fontFamily: "SF",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: ListView(
+                                padding: const EdgeInsets.all(0),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 30),
+                                    width: 288 - 40,
+                                    height: 426,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color(0xffEAEAEA),
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Image.asset(
+                                                "assets/images/lock5.png",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 4, left: 12),
+                                              child: Text(
+                                                "Дверной Замок Golden Soft для\nотеля",
+                                                style: TextStyle(
+                                                  color: Color(0xff454F5B),
+                                                  fontSize: 14,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, left: 12),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "33 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff161C24),
+                                                      fontSize: 18,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Text(
+                                                    "37 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff454F5B),
+                                                      fontSize: 16,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      decorationColor:
+                                                          Color(0xffA4A4A4),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        Positioned(
+                                            top: 17,
+                                            right: 12,
+                                            child: Container(
+                                              color: Colors.black
+                                                  .withOpacity(0.02),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              child: const Text(
+                                                "SALE",
+                                                style: TextStyle(
+                                                  color: Color(0xff161C24),
+                                                  fontSize: 10,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            )),
+                                        Positioned(
+                                          top: 17,
+                                          left: 12,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 4,
+                                                  vertical: 2,
+                                                ),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.one_k,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("В наличии"),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4,
+                                                        vertical: 2),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.search_off_sharp,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("Подарок"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 30),
+                                    width: 288 - 40,
+                                    height: 426,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color(0xffEAEAEA),
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Image.asset(
+                                                "assets/images/lock5.png",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 4, left: 12),
+                                              child: Text(
+                                                "Дверной Замок Golden Soft для\nотеля",
+                                                style: TextStyle(
+                                                  color: Color(0xff454F5B),
+                                                  fontSize: 14,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, left: 12),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "33 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff161C24),
+                                                      fontSize: 18,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Text(
+                                                    "37 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff454F5B),
+                                                      fontSize: 16,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      decorationColor:
+                                                          Color(0xffA4A4A4),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        Positioned(
+                                            top: 17,
+                                            right: 12,
+                                            child: Container(
+                                              color: Colors.black
+                                                  .withOpacity(0.02),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              child: const Text(
+                                                "SALE",
+                                                style: TextStyle(
+                                                  color: Color(0xff161C24),
+                                                  fontSize: 10,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            )),
+                                        Positioned(
+                                          top: 17,
+                                          left: 12,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 4,
+                                                  vertical: 2,
+                                                ),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.one_k,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("В наличии"),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4,
+                                                        vertical: 2),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.search_off_sharp,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("Подарок"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 30),
+                                    width: 288 - 40,
+                                    height: 426,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color(0xffEAEAEA),
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Image.asset(
+                                                "assets/images/lock5.png",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 4, left: 12),
+                                              child: Text(
+                                                "Дверной Замок Golden Soft для\nотеля",
+                                                style: TextStyle(
+                                                  color: Color(0xff454F5B),
+                                                  fontSize: 14,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, left: 12),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "33 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff161C24),
+                                                      fontSize: 18,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Text(
+                                                    "37 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff454F5B),
+                                                      fontSize: 16,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      decorationColor:
+                                                          Color(0xffA4A4A4),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        Positioned(
+                                            top: 17,
+                                            right: 12,
+                                            child: Container(
+                                              color: Colors.black
+                                                  .withOpacity(0.02),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              child: const Text(
+                                                "SALE",
+                                                style: TextStyle(
+                                                  color: Color(0xff161C24),
+                                                  fontSize: 10,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            )),
+                                        Positioned(
+                                          top: 17,
+                                          left: 12,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 4,
+                                                  vertical: 2,
+                                                ),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.one_k,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("В наличии"),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4,
+                                                        vertical: 2),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.search_off_sharp,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("Подарок"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 30),
+                                    width: 288 - 40,
+                                    height: 426,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color(0xffEAEAEA),
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Image.asset(
+                                                "assets/images/lock5.png",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 4, left: 12),
+                                              child: Text(
+                                                "Дверной Замок Golden Soft для\nотеля",
+                                                style: TextStyle(
+                                                  color: Color(0xff454F5B),
+                                                  fontSize: 14,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, left: 12),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "33 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff161C24),
+                                                      fontSize: 18,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Text(
+                                                    "37 000₽",
+                                                    style: TextStyle(
+                                                      color: Color(0xff454F5B),
+                                                      fontSize: 16,
+                                                      fontFamily: "SF",
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      decorationColor:
+                                                          Color(0xffA4A4A4),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        Positioned(
+                                            top: 17,
+                                            right: 12,
+                                            child: Container(
+                                              color: Colors.black
+                                                  .withOpacity(0.02),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              child: const Text(
+                                                "SALE",
+                                                style: TextStyle(
+                                                  color: Color(0xff161C24),
+                                                  fontSize: 10,
+                                                  fontFamily: "SF",
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            )),
+                                        Positioned(
+                                          top: 17,
+                                          left: 12,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 4,
+                                                  vertical: 2,
+                                                ),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.one_k,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("В наличии"),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.02),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4,
+                                                        vertical: 2),
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.search_off_sharp,
+                                                      size: 12,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text("Подарок"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
             )
-          : Container(
-              height: double.infinity,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.686,
-                      child: PageView(
-                        controller: controller,
-                        onPageChanged: (int page) {
-                          setState(() {
-                            _activePage = page;
-                          });
-                        },
-                        children: const [
-                          PromoWidgetMobile(),
-                          PromoWidgetMobile(),
-                          PromoWidgetMobile(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      padding: const EdgeInsets.only(
-                          top: 24, left: 8, right: 8, bottom: 24),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              if (_activePage > 0) {
-                                setState(() {
-                                  _activePage -= 1;
-                                  controller.previousPage(
-                                    duration: Durations.long1,
-                                    curve: Curves.ease,
-                                  );
-                                });
-                              }
-                            },
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                  "assets/icons/arrow_left.svg"),
-                            ),
-                          ),
-                          const Spacer(),
-                          SizedBox(
-                            height: 24,
-                            child: ListView.builder(
-                              itemCount: 3,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: _activePage == index
-                                        ? const Color(0xff4295E4)
-                                        : const Color(0xffADD7FF),
-                                  ),
-                                  width: 12,
-                                  height: 12,
-                                );
-                              },
-                            ),
-                          ),
-                          const Spacer(),
-                          InkWell(
-                            onTap: () {
-                              if (_activePage < 2) {
-                                setState(() {
-                                  _activePage += 1;
-                                  controller.nextPage(
-                                    duration: Durations.long1,
-                                    curve: Curves.ease,
-                                  );
-                                });
-                              }
-                            },
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                  "assets/icons/arrow_right.svg"),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      color: const Color(0xffF2F8FF),
-                      child: GridView.count(
-                        primary: false,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(0),
-                        crossAxisCount: 2,
-                        children: [
-                          Container(
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "5,567",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  "Счастливых клиентов",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Text(
-                                  "372",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  "Продаж в день",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "1245",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  "Продуктов на выбор",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Text(
-                                  "20",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  "Лет на рынке",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      child: GridView.count(
-                        primary: false,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(20),
-                        crossAxisSpacing: 40,
-                        mainAxisSpacing: 40,
-                        crossAxisCount: 2,
-                        children: [
-                          Container(
-                            color: Colors.white,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  color: Colors.black.withOpacity(0.02),
-                                  margin: const EdgeInsets.only(bottom: 40),
-                                  child: Center(
-                                    child: Image.asset(
-                                      "assets/images/lock5.png",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                const Positioned(
-                                  bottom: 0,
-                                  child: Text(
-                                    "Для отелей",
-                                    style: TextStyle(
-                                      color: Color(0xff161C24),
-                                      fontSize: 12,
-                                      fontFamily: "SF",
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                         Container(
-                            color: Colors.white,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  color: Colors.black.withOpacity(0.02),
-                                  margin: const EdgeInsets.only(bottom: 40),
-                                  child: Center(
-                                    child: Image.asset(
-                                      "assets/images/lock4.png",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                const Positioned(
-                                  bottom: 0,
-                                  child: Text(
-                                    "Для шкафчиков",
-                                    style: TextStyle(
-                                      color: Color(0xff161C24),
-                                      fontSize: 12,
-                                      fontFamily: "SF",
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),Container(
-                            color: Colors.white,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  color: Colors.black.withOpacity(0.02),
-                                  margin: const EdgeInsets.only(bottom: 40),
-                                  child: Center(
-                                    child: Image.asset(
-                                      "assets/images/lock3.png",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                const Positioned(
-                                  bottom: 0,
-                                  child: Text(
-                                    "Для офисов",
-                                    style: TextStyle(
-                                      color: Color(0xff161C24),
-                                      fontSize: 12,
-                                      fontFamily: "SF",
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),Container(
-                            color: Colors.white,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  color: Colors.black.withOpacity(0.02),
-                                  margin: const EdgeInsets.only(bottom: 40),
-                                  child: Center(
-                                    child: Image.asset(
-                                      "assets/images/lock2.png",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                const Positioned(
-                                  bottom: 0,
-                                  child: Text(
-                                    "Аксессуары",
-                                    style: TextStyle(
-                                      color: Color(0xff161C24),
-                                      fontSize: 12,
-                                      fontFamily: "SF",
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          : SizedBox(),
+      // : SizedBox(
+      //     height: double.infinity,
+      //     child: SingleChildScrollView(
+      //       child: Column(
+      //         mainAxisSize: MainAxisSize.min,
+      //         children: [
+      //           SizedBox(
+      //             height: MediaQuery.of(context).size.height * 0.686,
+      //             child: PageView(
+      //               controller: controller,
+      //               onPageChanged: (int page) {
+      //                 setState(() {
+      //                   _activePage = page;
+      //                 });
+      //               },
+      //               children: const [
+      //                 PromoWidgetMobile(),
+      //                 PromoWidgetMobile(),
+      //                 PromoWidgetMobile(),
+      //               ],
+      //             ),
+      //           ),
+      //           Container(
+      //             color: Colors.white,
+      //             padding: const EdgeInsets.only(
+      //                 top: 24, left: 8, right: 8, bottom: 24),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.center,
+      //               children: [
+      //                 InkWell(
+      //                   onTap: () {
+      //                     if (_activePage > 0) {
+      //                       setState(() {
+      //                         _activePage -= 1;
+      //                         controller.previousPage(
+      //                           duration: Durations.long1,
+      //                           curve: Curves.ease,
+      //                         );
+      //                       });
+      //                     }
+      //                   },
+      //                   customBorder: RoundedRectangleBorder(
+      //                     borderRadius: BorderRadius.circular(100),
+      //                   ),
+      //                   child: Padding(
+      //                     padding: const EdgeInsets.all(8.0),
+      //                     child: SvgPicture.asset(
+      //                         "assets/icons/arrow_left.svg"),
+      //                   ),
+      //                 ),
+      //                 const Spacer(),
+      //                 SizedBox(
+      //                   height: 24,
+      //                   child: ListView.builder(
+      //                     itemCount: 3,
+      //                     shrinkWrap: true,
+      //                     scrollDirection: Axis.horizontal,
+      //                     itemBuilder: (context, index) {
+      //                       return Container(
+      //                         margin:
+      //                             const EdgeInsets.symmetric(horizontal: 8),
+      //                         decoration: BoxDecoration(
+      //                           shape: BoxShape.circle,
+      //                           color: _activePage == index
+      //                               ? const Color(0xff4295E4)
+      //                               : const Color(0xffADD7FF),
+      //                         ),
+      //                         width: 12,
+      //                         height: 12,
+      //                       );
+      //                     },
+      //                   ),
+      //                 ),
+      //                 const Spacer(),
+      //                 InkWell(
+      //                   onTap: () {
+      //                     if (_activePage < 2) {
+      //                       setState(() {
+      //                         _activePage += 1;
+      //                         controller.nextPage(
+      //                           duration: Durations.long1,
+      //                           curve: Curves.ease,
+      //                         );
+      //                       });
+      //                     }
+      //                   },
+      //                   customBorder: RoundedRectangleBorder(
+      //                     borderRadius: BorderRadius.circular(100),
+      //                   ),
+      //                   child: Padding(
+      //                     padding: const EdgeInsets.all(8.0),
+      //                     child: SvgPicture.asset(
+      //                         "assets/icons/arrow_right.svg"),
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //           Container(
+      //             color: const Color(0xffF2F8FF),
+      //             child: GridView.count(
+      //               primary: false,
+      //               shrinkWrap: true,
+      //               physics: const NeverScrollableScrollPhysics(),
+      //               padding: const EdgeInsets.all(0),
+      //               crossAxisCount: 2,
+      //               children: [
+      //                 Container(
+      //                   child: const Column(
+      //                     mainAxisAlignment: MainAxisAlignment.center,
+      //                     children: [
+      //                       Text(
+      //                         "5,567",
+      //                         style: TextStyle(
+      //                           fontSize: 22,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w600,
+      //                         ),
+      //                       ),
+      //                       SizedBox(
+      //                         height: 2,
+      //                       ),
+      //                       Text(
+      //                         "Счастливых клиентов",
+      //                         style: TextStyle(
+      //                           fontSize: 10,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w400,
+      //                         ),
+      //                       ),
+      //                       SizedBox(
+      //                         height: 30,
+      //                       ),
+      //                       Text(
+      //                         "372",
+      //                         style: TextStyle(
+      //                           fontSize: 22,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w600,
+      //                         ),
+      //                       ),
+      //                       SizedBox(
+      //                         height: 2,
+      //                       ),
+      //                       Text(
+      //                         "Продаж в день",
+      //                         style: TextStyle(
+      //                           fontSize: 10,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w400,
+      //                         ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //                 Container(
+      //                   child: const Column(
+      //                     mainAxisAlignment: MainAxisAlignment.center,
+      //                     children: [
+      //                       Text(
+      //                         "1245",
+      //                         style: TextStyle(
+      //                           fontSize: 22,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w600,
+      //                         ),
+      //                       ),
+      //                       SizedBox(
+      //                         height: 2,
+      //                       ),
+      //                       Text(
+      //                         "Продуктов на выбор",
+      //                         style: TextStyle(
+      //                           fontSize: 10,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w400,
+      //                         ),
+      //                       ),
+      //                       SizedBox(
+      //                         height: 30,
+      //                       ),
+      //                       Text(
+      //                         "20",
+      //                         style: TextStyle(
+      //                           fontSize: 22,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w600,
+      //                         ),
+      //                       ),
+      //                       SizedBox(
+      //                         height: 2,
+      //                       ),
+      //                       Text(
+      //                         "Лет на рынке",
+      //                         style: TextStyle(
+      //                           fontSize: 10,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w400,
+      //                         ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //           Container(
+      //             width: double.infinity,
+      //             padding: const EdgeInsets.only(top: 24),
+      //             color: Colors.white,
+      //             child: Column(
+      //               children: [
+      //                 const Text(
+      //                   "Почему GoldenService?",
+      //                   style: TextStyle(
+      //                     color: Color(0xff161C24),
+      //                     fontSize: 20,
+      //                     fontFamily: "SF",
+      //                     fontWeight: FontWeight.w600,
+      //                   ),
+      //                 ),
+      //                 Container(
+      //                   padding: const EdgeInsets.symmetric(
+      //                       horizontal: 16, vertical: 24),
+      //                   child: Column(
+      //                     children: [
+      //                       const Divider(
+      //                         height: 0.5,
+      //                         color: Color(0xffC4CDD5),
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 24,
+      //                       ),
+      //                       SvgPicture.asset(
+      //                         "assets/icons/box.svg",
+      //                         width: 82,
+      //                         height: 82,
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 32,
+      //                       ),
+      //                       const Text(
+      //                         "Наносим ваш логотип компании\nна наш продукт",
+      //                         textAlign: TextAlign.center,
+      //                         style: TextStyle(
+      //                           color: Color(0xff454F5B),
+      //                           fontSize: 14,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w400,
+      //                         ),
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 24,
+      //                       ),
+      //                       const Divider(
+      //                         height: 0.5,
+      //                         color: Color(0xffC4CDD5),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //                 Container(
+      //                   padding: const EdgeInsets.symmetric(
+      //                       horizontal: 16, vertical: 24),
+      //                   child: Column(
+      //                     children: [
+      //                       const Divider(
+      //                         height: 0.5,
+      //                         color: Color(0xffC4CDD5),
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 24,
+      //                       ),
+      //                       SvgPicture.asset(
+      //                         "assets/icons/like.svg",
+      //                         width: 82,
+      //                         height: 82,
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 32,
+      //                       ),
+      //                       const Text(
+      //                         "Наносим ваш логотип компании\nна наш продукт",
+      //                         textAlign: TextAlign.center,
+      //                         style: TextStyle(
+      //                           color: Color(0xff454F5B),
+      //                           fontSize: 14,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w400,
+      //                         ),
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 24,
+      //                       ),
+      //                       const Divider(
+      //                         height: 0.5,
+      //                         color: Color(0xffC4CDD5),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //                 Container(
+      //                   padding: const EdgeInsets.symmetric(
+      //                       horizontal: 16, vertical: 24),
+      //                   child: Column(
+      //                     children: [
+      //                       const Divider(
+      //                         height: 0.5,
+      //                         color: Color(0xffC4CDD5),
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 24,
+      //                       ),
+      //                       SvgPicture.asset(
+      //                         "assets/icons/box.svg",
+      //                         width: 82,
+      //                         height: 82,
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 32,
+      //                       ),
+      //                       const Text(
+      //                         "Возврат удвоенной стоимости\nкаждого замка в случае брака.",
+      //                         textAlign: TextAlign.center,
+      //                         style: TextStyle(
+      //                           color: Color(0xff454F5B),
+      //                           fontSize: 14,
+      //                           fontFamily: "SF",
+      //                           fontWeight: FontWeight.w400,
+      //                         ),
+      //                       ),
+      //                       const SizedBox(
+      //                         height: 24,
+      //                       ),
+      //                       const Divider(
+      //                         height: 0.5,
+      //                         color: Color(0xffC4CDD5),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //           Container(
+      //             color: Colors.white,
+      //             child: Column(
+      //               children: [
+      //                 const Text(
+      //                   "Категории",
+      //                   style: TextStyle(
+      //                     color: Color(0xff161C24),
+      //                     fontSize: 20,
+      //                     fontFamily: "SF",
+      //                     fontWeight: FontWeight.w600,
+      //                   ),
+      //                 ),
+      //                 GridView.count(
+      //                   primary: false,
+      //                   shrinkWrap: true,
+      //                   physics: const NeverScrollableScrollPhysics(),
+      //                   padding: const EdgeInsets.all(20),
+      //                   crossAxisSpacing: 40,
+      //                   mainAxisSpacing: 40,
+      //                   crossAxisCount: 2,
+      //                   children: [
+      //                     Container(
+      //                       color: Colors.white,
+      //                       child: Stack(
+      //                         children: [
+      //                           Container(
+      //                             color: Colors.black.withOpacity(0.02),
+      //                             margin: const EdgeInsets.only(bottom: 40),
+      //                             child: Center(
+      //                               child: Image.asset(
+      //                                 "assets/images/lock5.png",
+      //                                 fit: BoxFit.fill,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                           const Positioned(
+      //                             bottom: 0,
+      //                             child: Text(
+      //                               "Для отелей",
+      //                               style: TextStyle(
+      //                                 color: Color(0xff161C24),
+      //                                 fontSize: 12,
+      //                                 fontFamily: "SF",
+      //                                 fontWeight: FontWeight.w600,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                         ],
+      //                       ),
+      //                     ),
+      //                     Container(
+      //                       color: Colors.white,
+      //                       child: Stack(
+      //                         children: [
+      //                           Container(
+      //                             color: Colors.black.withOpacity(0.02),
+      //                             margin: const EdgeInsets.only(bottom: 40),
+      //                             child: Center(
+      //                               child: Image.asset(
+      //                                 "assets/images/lock4.png",
+      //                                 fit: BoxFit.fill,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                           const Positioned(
+      //                             bottom: 0,
+      //                             child: Text(
+      //                               "Для шкафчиков",
+      //                               style: TextStyle(
+      //                                 color: Color(0xff161C24),
+      //                                 fontSize: 12,
+      //                                 fontFamily: "SF",
+      //                                 fontWeight: FontWeight.w600,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                         ],
+      //                       ),
+      //                     ),
+      //                     Container(
+      //                       color: Colors.white,
+      //                       child: Stack(
+      //                         children: [
+      //                           Container(
+      //                             color: Colors.black.withOpacity(0.02),
+      //                             margin: const EdgeInsets.only(bottom: 40),
+      //                             child: Center(
+      //                               child: Image.asset(
+      //                                 "assets/images/lock3.png",
+      //                                 fit: BoxFit.fill,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                           const Positioned(
+      //                             bottom: 0,
+      //                             child: Text(
+      //                               "Для офисов",
+      //                               style: TextStyle(
+      //                                 color: Color(0xff161C24),
+      //                                 fontSize: 12,
+      //                                 fontFamily: "SF",
+      //                                 fontWeight: FontWeight.w600,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                         ],
+      //                       ),
+      //                     ),
+      //                     Container(
+      //                       color: Colors.white,
+      //                       child: Stack(
+      //                         children: [
+      //                           Container(
+      //                             color: Colors.black.withOpacity(0.02),
+      //                             margin: const EdgeInsets.only(bottom: 40),
+      //                             child: Center(
+      //                               child: Image.asset(
+      //                                 "assets/images/lock2.png",
+      //                                 fit: BoxFit.fill,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                           const Positioned(
+      //                             bottom: 0,
+      //                             child: Text(
+      //                               "Аксессуары",
+      //                               style: TextStyle(
+      //                                 color: Color(0xff161C24),
+      //                                 fontSize: 12,
+      //                                 fontFamily: "SF",
+      //                                 fontWeight: FontWeight.w600,
+      //                               ),
+      //                             ),
+      //                           ),
+      //                         ],
+      //                       ),
+      //                     ),
+      //                   ],
+      //                 ),
+      //                 Container(
+      //                   padding: const EdgeInsets.symmetric(horizontal: 16),
+      //                   width: double.infinity,
+      //                   height: 50,
+      //                   child: FFButtonWidget(
+      //                     onPressed: () async {},
+      //                     text: 'Все категории',
+      //                     options: const FFButtonOptions(
+      //                       width: double.infinity,
+      //                       height: double.infinity,
+      //                       color: Color(0xff4295E4),
+      //                       elevation: 0,
+      //                       textStyle: TextStyle(
+      //                         fontFamily: 'SF',
+      //                         color: Colors.white,
+      //                         fontSize: 14,
+      //                         fontWeight: FontWeight.w500,
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //           Container(
+      //             width: double.infinity,
+      //             height: 484,
+      //             padding: const EdgeInsets.only(top: 40, bottom: 36),
+      //             child: Column(
+      //               children: [
+      //                 const Text(
+      //                   "Наши популярные продукты",
+      //                   style: TextStyle(
+      //                     color: Color(0xff161C24),
+      //                     fontSize: 20,
+      //                     fontFamily: "SF",
+      //                     fontWeight: FontWeight.w600,
+      //                   ),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 24,
+      //                 ),
+      //                 Expanded(
+      //                   child: Container(
+      //                     padding:
+      //                         const EdgeInsets.symmetric(horizontal: 16),
+      //                     child: ListView(
+      //                       shrinkWrap: true,
+      //                       scrollDirection: Axis.horizontal,
+      //                       physics: const BouncingScrollPhysics(),
+      //                       children: [
+      //                         Container(
+      //                           margin: const EdgeInsets.only(right: 30),
+      //                           width: 288 - 40,
+      //                           height: 426,
+      //                           color: Colors.white,
+      //                           child: Stack(
+      //                             children: [
+      //                               Column(
+      //                                 crossAxisAlignment:
+      //                                     CrossAxisAlignment.start,
+      //                                 children: [
+      //                                   Expanded(
+      //                                     child: Image.asset(
+      //                                       "assets/images/lock5.png",
+      //                                       fit: BoxFit.cover,
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 4, left: 12),
+      //                                     child: Text(
+      //                                       "Дверной Замок Golden Soft для\nотеля",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff454F5B),
+      //                                         fontSize: 14,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w400,
+      //                                       ),
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 10, left: 12),
+      //                                     child: Row(
+      //                                       children: [
+      //                                         Text(
+      //                                           "33 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff161C24),
+      //                                             fontSize: 18,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w700,
+      //                                           ),
+      //                                         ),
+      //                                         SizedBox(
+      //                                           width: 12,
+      //                                         ),
+      //                                         Text(
+      //                                           "37 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff454F5B),
+      //                                             fontSize: 16,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w300,
+      //                                             decoration: TextDecoration
+      //                                                 .lineThrough,
+      //                                             decorationColor:
+      //                                                 Color(0xffA4A4A4),
+      //                                           ),
+      //                                         ),
+      //                                       ],
+      //                                     ),
+      //                                   ),
+      //                                   const SizedBox(
+      //                                     height: 10,
+      //                                   ),
+      //                                 ],
+      //                               ),
+      //                               Positioned(
+      //                                   top: 17,
+      //                                   right: 12,
+      //                                   child: Container(
+      //                                     color: Colors.black
+      //                                         .withOpacity(0.02),
+      //                                     padding:
+      //                                         const EdgeInsets.symmetric(
+      //                                       horizontal: 8,
+      //                                       vertical: 4,
+      //                                     ),
+      //                                     child: const Text(
+      //                                       "SALE",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff161C24),
+      //                                         fontSize: 10,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w500,
+      //                                       ),
+      //                                     ),
+      //                                   )),
+      //                               Positioned(
+      //                                 top: 17,
+      //                                 left: 12,
+      //                                 child: Column(
+      //                                   crossAxisAlignment:
+      //                                       CrossAxisAlignment.start,
+      //                                   children: [
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                         horizontal: 4,
+      //                                         vertical: 2,
+      //                                       ),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.one_k,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("В наличии"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                     const SizedBox(
+      //                                       height: 8,
+      //                                     ),
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                               horizontal: 4,
+      //                                               vertical: 2),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.search_off_sharp,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("Подарок"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                   ],
+      //                                 ),
+      //                               ),
+      //                             ],
+      //                           ),
+      //                         ),
+      //                         Container(
+      //                           margin: const EdgeInsets.only(right: 30),
+      //                           width: 288 - 40,
+      //                           height: 426,
+      //                           color: Colors.white,
+      //                           child: Stack(
+      //                             children: [
+      //                               Column(
+      //                                 crossAxisAlignment:
+      //                                     CrossAxisAlignment.start,
+      //                                 children: [
+      //                                   Expanded(
+      //                                     child: Image.asset(
+      //                                       "assets/images/lock5.png",
+      //                                       fit: BoxFit.cover,
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 4, left: 12),
+      //                                     child: Text(
+      //                                       "Дверной Замок Golden Soft для\nотеля",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff454F5B),
+      //                                         fontSize: 14,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w400,
+      //                                       ),
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 10, left: 12),
+      //                                     child: Row(
+      //                                       children: [
+      //                                         Text(
+      //                                           "33 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff161C24),
+      //                                             fontSize: 18,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w700,
+      //                                           ),
+      //                                         ),
+      //                                         SizedBox(
+      //                                           width: 12,
+      //                                         ),
+      //                                         Text(
+      //                                           "37 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff454F5B),
+      //                                             fontSize: 16,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w300,
+      //                                             decoration: TextDecoration
+      //                                                 .lineThrough,
+      //                                             decorationColor:
+      //                                                 Color(0xffA4A4A4),
+      //                                           ),
+      //                                         ),
+      //                                       ],
+      //                                     ),
+      //                                   ),
+      //                                   const SizedBox(
+      //                                     height: 10,
+      //                                   ),
+      //                                 ],
+      //                               ),
+      //                               Positioned(
+      //                                   top: 17,
+      //                                   right: 12,
+      //                                   child: Container(
+      //                                     color: Colors.black
+      //                                         .withOpacity(0.02),
+      //                                     padding:
+      //                                         const EdgeInsets.symmetric(
+      //                                       horizontal: 8,
+      //                                       vertical: 4,
+      //                                     ),
+      //                                     child: const Text(
+      //                                       "SALE",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff161C24),
+      //                                         fontSize: 10,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w500,
+      //                                       ),
+      //                                     ),
+      //                                   )),
+      //                               Positioned(
+      //                                 top: 17,
+      //                                 left: 12,
+      //                                 child: Column(
+      //                                   crossAxisAlignment:
+      //                                       CrossAxisAlignment.start,
+      //                                   children: [
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                         horizontal: 4,
+      //                                         vertical: 2,
+      //                                       ),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.one_k,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("В наличии"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                     const SizedBox(
+      //                                       height: 8,
+      //                                     ),
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                               horizontal: 4,
+      //                                               vertical: 2),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.search_off_sharp,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("Подарок"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                   ],
+      //                                 ),
+      //                               ),
+      //                             ],
+      //                           ),
+      //                         ),
+      //                         Container(
+      //                           margin: const EdgeInsets.only(right: 30),
+      //                           width: 288 - 40,
+      //                           height: 426,
+      //                           color: Colors.white,
+      //                           child: Stack(
+      //                             children: [
+      //                               Column(
+      //                                 crossAxisAlignment:
+      //                                     CrossAxisAlignment.start,
+      //                                 children: [
+      //                                   Expanded(
+      //                                     child: Image.asset(
+      //                                       "assets/images/lock5.png",
+      //                                       fit: BoxFit.cover,
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 4, left: 12),
+      //                                     child: Text(
+      //                                       "Дверной Замок Golden Soft для\nотеля",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff454F5B),
+      //                                         fontSize: 14,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w400,
+      //                                       ),
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 10, left: 12),
+      //                                     child: Row(
+      //                                       children: [
+      //                                         Text(
+      //                                           "33 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff161C24),
+      //                                             fontSize: 18,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w700,
+      //                                           ),
+      //                                         ),
+      //                                         SizedBox(
+      //                                           width: 12,
+      //                                         ),
+      //                                         Text(
+      //                                           "37 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff454F5B),
+      //                                             fontSize: 16,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w300,
+      //                                             decoration: TextDecoration
+      //                                                 .lineThrough,
+      //                                             decorationColor:
+      //                                                 Color(0xffA4A4A4),
+      //                                           ),
+      //                                         ),
+      //                                       ],
+      //                                     ),
+      //                                   ),
+      //                                   const SizedBox(
+      //                                     height: 10,
+      //                                   ),
+      //                                 ],
+      //                               ),
+      //                               Positioned(
+      //                                   top: 17,
+      //                                   right: 12,
+      //                                   child: Container(
+      //                                     color: Colors.black
+      //                                         .withOpacity(0.02),
+      //                                     padding:
+      //                                         const EdgeInsets.symmetric(
+      //                                       horizontal: 8,
+      //                                       vertical: 4,
+      //                                     ),
+      //                                     child: const Text(
+      //                                       "SALE",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff161C24),
+      //                                         fontSize: 10,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w500,
+      //                                       ),
+      //                                     ),
+      //                                   )),
+      //                               Positioned(
+      //                                 top: 17,
+      //                                 left: 12,
+      //                                 child: Column(
+      //                                   crossAxisAlignment:
+      //                                       CrossAxisAlignment.start,
+      //                                   children: [
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                         horizontal: 4,
+      //                                         vertical: 2,
+      //                                       ),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.one_k,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("В наличии"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                     const SizedBox(
+      //                                       height: 8,
+      //                                     ),
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                               horizontal: 4,
+      //                                               vertical: 2),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.search_off_sharp,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("Подарок"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                   ],
+      //                                 ),
+      //                               ),
+      //                             ],
+      //                           ),
+      //                         ),
+      //                         Container(
+      //                           margin: const EdgeInsets.only(right: 30),
+      //                           width: 288 - 40,
+      //                           height: 426,
+      //                           color: Colors.white,
+      //                           child: Stack(
+      //                             children: [
+      //                               Column(
+      //                                 crossAxisAlignment:
+      //                                     CrossAxisAlignment.start,
+      //                                 children: [
+      //                                   Expanded(
+      //                                     child: Image.asset(
+      //                                       "assets/images/lock5.png",
+      //                                       fit: BoxFit.cover,
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 4, left: 12),
+      //                                     child: Text(
+      //                                       "Дверной Замок Golden Soft для\nотеля",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff454F5B),
+      //                                         fontSize: 14,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w400,
+      //                                       ),
+      //                                     ),
+      //                                   ),
+      //                                   const Padding(
+      //                                     padding: EdgeInsets.only(
+      //                                         top: 10, left: 12),
+      //                                     child: Row(
+      //                                       children: [
+      //                                         Text(
+      //                                           "33 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff161C24),
+      //                                             fontSize: 18,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w700,
+      //                                           ),
+      //                                         ),
+      //                                         SizedBox(
+      //                                           width: 12,
+      //                                         ),
+      //                                         Text(
+      //                                           "37 000₽",
+      //                                           style: TextStyle(
+      //                                             color: Color(0xff454F5B),
+      //                                             fontSize: 16,
+      //                                             fontFamily: "SF",
+      //                                             fontWeight:
+      //                                                 FontWeight.w300,
+      //                                             decoration: TextDecoration
+      //                                                 .lineThrough,
+      //                                             decorationColor:
+      //                                                 Color(0xffA4A4A4),
+      //                                           ),
+      //                                         ),
+      //                                       ],
+      //                                     ),
+      //                                   ),
+      //                                   const SizedBox(
+      //                                     height: 10,
+      //                                   ),
+      //                                 ],
+      //                               ),
+      //                               Positioned(
+      //                                   top: 17,
+      //                                   right: 12,
+      //                                   child: Container(
+      //                                     color: Colors.black
+      //                                         .withOpacity(0.02),
+      //                                     padding:
+      //                                         const EdgeInsets.symmetric(
+      //                                       horizontal: 8,
+      //                                       vertical: 4,
+      //                                     ),
+      //                                     child: const Text(
+      //                                       "SALE",
+      //                                       style: TextStyle(
+      //                                         color: Color(0xff161C24),
+      //                                         fontSize: 10,
+      //                                         fontFamily: "SF",
+      //                                         fontWeight: FontWeight.w500,
+      //                                       ),
+      //                                     ),
+      //                                   )),
+      //                               Positioned(
+      //                                 top: 17,
+      //                                 left: 12,
+      //                                 child: Column(
+      //                                   crossAxisAlignment:
+      //                                       CrossAxisAlignment.start,
+      //                                   children: [
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                         horizontal: 4,
+      //                                         vertical: 2,
+      //                                       ),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.one_k,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("В наличии"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                     const SizedBox(
+      //                                       height: 8,
+      //                                     ),
+      //                                     Container(
+      //                                       color: Colors.black
+      //                                           .withOpacity(0.02),
+      //                                       padding:
+      //                                           const EdgeInsets.symmetric(
+      //                                               horizontal: 4,
+      //                                               vertical: 2),
+      //                                       child: const Row(
+      //                                         children: [
+      //                                           Icon(
+      //                                             Icons.search_off_sharp,
+      //                                             size: 12,
+      //                                             color: Color(0xff4295E4),
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 2,
+      //                                           ),
+      //                                           Text("Подарок"),
+      //                                         ],
+      //                                       ),
+      //                                     ),
+      //                                   ],
+      //                                 ),
+      //                               ),
+      //                             ],
+      //                           ),
+      //                         ),
+      //                       ],
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      // ),
+      // ),
     );
   }
 }
@@ -1107,7 +2585,7 @@ class PromoWidgetMobileDesktop extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Golden Soft\nGS-200Z-5 для офиса",
                 style: TextStyle(
                   color: Color(0xff161C24),
@@ -1119,7 +2597,7 @@ class PromoWidgetMobileDesktop extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 "Замок дверной электронный Golden Soft\nGS-200Z-5 имеет роскошный глянцевый\nблеск, четкие линии, красивые формы.",
                 style: TextStyle(
                   color: Color(0xff161C24),
@@ -1131,7 +2609,7 @@ class PromoWidgetMobileDesktop extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Text(
+              const Text(
                 "Подходит для установки на\nдеревянную/межкомнатную дверь.",
                 style: TextStyle(
                   color: Color(0xff161C24),
@@ -1143,7 +2621,7 @@ class PromoWidgetMobileDesktop extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              Text(
+              const Text(
                 "Цена",
                 style: TextStyle(
                   color: Color(0xff161C24),
@@ -1155,7 +2633,7 @@ class PromoWidgetMobileDesktop extends StatelessWidget {
               const SizedBox(
                 height: 4,
               ),
-              Row(
+              const Row(
                 children: [
                   Text(
                     "33 000₽",
@@ -1166,7 +2644,7 @@ class PromoWidgetMobileDesktop extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 12,
                   ),
                   Text(
@@ -1191,12 +2669,12 @@ class PromoWidgetMobileDesktop extends StatelessWidget {
                 child: FFButtonWidget(
                   onPressed: () async {},
                   text: 'Добавить в корзину',
-                  options: FFButtonOptions(
+                  options: const FFButtonOptions(
                     width: double.infinity,
                     height: double.infinity,
                     color: Color(0xff4295E4),
                     elevation: 0,
-                    textStyle: const TextStyle(
+                    textStyle: TextStyle(
                       fontFamily: 'SF',
                       color: Colors.white,
                       fontSize: 14,

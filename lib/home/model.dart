@@ -1,20 +1,26 @@
-class Project {
-  final String description;
+class Product {
+  final String title;
+  final int rate;
+  final int price;
+  final int oldPrice;
   final List<Photo> photos;
-  final Author author;
 
-  Project({
-    required this.description,
+  Product({
+    required this.title,
+    required this.rate,
+    required this.price,
+    required this.oldPrice,
     required this.photos,
-    required this.author,
   });
 
-  factory Project.fromJson(Map<String, dynamic> json) => Project(
-        description: json['description'],
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+        title: json['title'],
+        rate: json['rate'],
+        price: json['rate'],
+        oldPrice: json['oldPrice'],
         photos: List<Photo>.from(
           json['photoItems'].map((photo) => Photo.fromJson(photo)),
         ),
-        author: Author.fromJson(json['author']),
       );
 }
 
@@ -30,20 +36,5 @@ class Photo {
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
         id: json['id'],
         fileName: json['fileName'],
-      );
-}
-
-class Author {
-  final String nickname;
-  final String avatarUrl;
-
-  Author({
-    required this.nickname,
-    required this.avatarUrl,
-  });
-
-  factory Author.fromJson(Map<String, dynamic> json) => Author(
-        nickname: json['nickname'],
-        avatarUrl: json['avatarUrl'],
       );
 }

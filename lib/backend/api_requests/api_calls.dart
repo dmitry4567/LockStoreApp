@@ -7,34 +7,40 @@ export 'api_manager.dart' show ApiCallResponse;
 
 final dioClient = Dio(
   BaseOptions(
-    baseUrl: "https://895d-87-117-59-74.ngrok-free.app/api",
+    baseUrl: "https://2548-188-114-50-157.ngrok-free.app/api",
+    connectTimeout: 30000,
     receiveTimeout: 3000,
   ),
 ).also((it) {
   it.interceptors.add(InterceptorsWrapper(
     onRequest: (options, handler) {
       // Add the access token to the request header
+      // "Access-Control-Allow-Origin": "*",
+      //       'Content-Type': 'application/json',
+      //       'Accept': '*/*'
+      options.headers['Cccess-Control-Allow-Origin'] = '*';
       options.headers['Content-Type'] = 'application/json';
-      options.headers['apikey'] =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNjkzNjg4NDAwLAogICJleHAiOiAxODUxNTQxMjAwCn0.Iy7uOckXLaFw7E0bXh94utCBkhj4irI07XUpJY3ZXK4';
+      options.headers['Accept'] = '*/*';
+      // options.headers['apikey'] =
+      //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNjkzNjg4NDAwLAogICJleHAiOiAxODUxNTQxMjAwCn0.Iy7uOckXLaFw7E0bXh94utCBkhj4irI07XUpJY3ZXK4';
 
       return handler.next(options);
     },
     onResponse: (e, handler) async {
-      if (e.data["status"] == 401) {
-        // If a 401 response is received, refresh the access token
-        await ApiManager.refresh(it);
+      // if (e.data["status"] == 401) {
+      //   // If a 401 response is received, refresh the access token
+      //   await ApiManager.refresh(it);
 
-        // Update the request header with the new access token
-        Map<String, dynamic> temp = jsonDecode(e.requestOptions.data);
-        temp['token'] = ffAppState.userAuthToken;
-        e.requestOptions.data = temp;
+      //   // Update the request header with the new access token
+      //   Map<String, dynamic> temp = jsonDecode(e.requestOptions.data);
+      //   temp['token'] = ffAppState.userAuthToken;
+      //   e.requestOptions.data = temp;
 
-        // Repeat the request with the updated header
-        return handler.resolve(await it.fetch(e.requestOptions));
-      }
+      //   // Repeat the request with the updated header
+      //   return handler.resolve(await it.fetch(e.requestOptions));
+      // }
 
-      return handler.next(e);
+      // return handler.next(e);
     },
   ));
 });
@@ -89,17 +95,15 @@ class SignUpCall {
   }
 }
 
-class GetAllProject {
-  static Future<ApiCallResponse> call({
-    String? token = '',
-  }) {
+class GetAllProduct {
+  static Future<ApiCallResponse> call() {
     // final body = '''
     // {
     //   "token": "$token"
     // }''';
 
     return ApiManager.instance.makeApiCall(
-      apiPath: '/project/all',
+      apiPath: '/products',
       callType: ApiCallType.GET,
       params: {},
       // body: body,
