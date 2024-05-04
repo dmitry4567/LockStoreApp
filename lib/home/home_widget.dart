@@ -28,7 +28,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     // log(response.toString());
 
-    const String url = 'https://bd3b-84-51-200-126.ngrok-free.app/api/products';
+    String url = "$baseUrl/products";
 
     try {
       final response = await http.get(Uri.parse(url), headers: {
@@ -2231,7 +2231,7 @@ class _ProductCardState extends State<ProductCard> {
               Expanded(
                 child: CachedNetworkImage(
                   imageUrl:
-                      "https://bd3b-84-51-200-126.ngrok-free.app/api/photoItem/product/${widget.product.photos[0].fileName}",
+                      "$baseUrl/photoItem/product/${widget.product.photos[0].fileName}",
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
