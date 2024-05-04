@@ -69,7 +69,7 @@ class _ProductCardState extends State<ProductCard> {
                       width: 12,
                     ),
                     Text(
-                      widget.product.oldPrice.toString() + "₽",
+                      "${widget.product.oldPrice}₽",
                       style: const TextStyle(
                         color: Color(0xff454F5B),
                         fontSize: 16,
@@ -91,7 +91,7 @@ class _ProductCardState extends State<ProductCard> {
             top: 17,
             right: 12,
             child: Container(
-              color: Colors.black.withOpacity(0.02),
+              color: Colors.white,
               padding: const EdgeInsets.symmetric(
                 horizontal: 8,
                 vertical: 4,
