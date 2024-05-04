@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:LockStore/main.dart';
 import 'package:dio/dio.dart';
 import 'package:scope_function/scope_function.dart';
 import 'api_manager.dart';
@@ -7,7 +5,7 @@ export 'api_manager.dart' show ApiCallResponse;
 
 final dioClient = Dio(
   BaseOptions(
-    baseUrl: "https://2548-188-114-50-157.ngrok-free.app/api",
+    baseUrl: "https://9e52-84-51-200-126.ngrok-free.app/api",
     connectTimeout: 30000,
     receiveTimeout: 3000,
   ),
