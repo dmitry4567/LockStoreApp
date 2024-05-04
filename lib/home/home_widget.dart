@@ -114,7 +114,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 setState(() {
                                   _activePage -= 1;
                                   controller.previousPage(
-                                    duration: Durations.long1,
+                                    duration: Duration(milliseconds: 300),
                                     curve: Curves.ease,
                                   );
                                 });
@@ -159,7 +159,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 setState(() {
                                   _activePage += 1;
                                   controller.nextPage(
-                                    duration: Durations.long1,
+                                    duration: Duration(milliseconds: 300),
                                     curve: Curves.ease,
                                   );
                                 });
@@ -841,7 +841,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 setState(() {
                                   _activePage -= 1;
                                   controller.previousPage(
-                                    duration: Durations.long1,
+                                    duration: Duration(milliseconds: 300),
                                     curve: Curves.ease,
                                   );
                                 });
@@ -886,7 +886,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 setState(() {
                                   _activePage += 1;
                                   controller.nextPage(
-                                    duration: Durations.long1,
+                                    duration: Duration(milliseconds: 300),
                                     curve: Curves.ease,
                                   );
                                 });
@@ -2234,7 +2234,7 @@ class _ProductCardState extends State<ProductCard> {
                       "$baseUrl/photoItem/product/${widget.product.photos[0].fileName}",
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
+                      const Center(child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
