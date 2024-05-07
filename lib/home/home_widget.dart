@@ -98,19 +98,24 @@ class _HomePageState extends State<HomePage> {
                                   return Center(
                                       child: Text('Error: ${snapshot.error}'));
                                 } else {
-                                  return ListView.builder(
-                                    padding: const EdgeInsets.all(0),
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.length,
-                                    scrollDirection: Axis.horizontal,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return ProductCard(
-                                        product:
-                                            snapshot.data[index] as Product,
-                                      );
-                                    },
-                                  );
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      padding: const EdgeInsets.all(0),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.length,
+                                      scrollDirection: Axis.horizontal,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return ProductCard(
+                                          product:
+                                              snapshot.data[index] as Product,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return const Center(
+                                        child: Text("Ошибка получения данных"));
+                                  }
                                 }
                               },
                             ),
@@ -172,19 +177,24 @@ class _HomePageState extends State<HomePage> {
                                   return Center(
                                       child: Text('Error: ${snapshot.error}'));
                                 } else {
-                                  return ListView.builder(
-                                    padding: const EdgeInsets.all(0),
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.length,
-                                    scrollDirection: Axis.horizontal,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return ProductCard(
-                                        product:
-                                            snapshot.data[index] as Product,
-                                      );
-                                    },
-                                  );
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      padding: const EdgeInsets.all(0),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.length,
+                                      scrollDirection: Axis.horizontal,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return ProductCard(
+                                          product:
+                                              snapshot.data[index] as Product,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return const Center(
+                                        child: Text("Ошибка получения данных"));
+                                  }
                                 }
                               },
                             ),
