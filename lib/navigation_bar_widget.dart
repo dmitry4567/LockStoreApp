@@ -1,7 +1,10 @@
+import 'package:LockStore/category/category_widget.dart';
 import 'package:LockStore/favorites/favorites_widget.dart';
 import 'package:LockStore/flutter_flow/nav/nav.dart';
 import 'package:LockStore/home/home_widget.dart';
+import 'package:LockStore/home/widgets/desktop/category_widget.dart';
 import 'package:LockStore/layout/adaptive.dart';
+import 'package:LockStore/product/product.dart';
 import 'package:LockStore/profile/profile_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +29,8 @@ class _NavBarPageState extends State<NavBarWidget> {
   late String _currentPageName;
 
   Map<String, Widget> _tabs = {
-    'Home': HomeWidget(),
-    'Profile': ProfileWidget(),
+    'Home': ProductPage(),
+    'Category': CategoryPage(),
     'Favorites': FavoritesWidget(),
   };
 
@@ -45,7 +48,7 @@ class _NavBarPageState extends State<NavBarWidget> {
     return Scaffold(
       appBar: !isDesktop
           ? AppBar(
-            backgroundColor: Colors.white,
+              backgroundColor: Colors.white,
               leading: const Icon(
                 Icons.menu,
                 size: 30,
@@ -106,24 +109,40 @@ class _NavBarPageState extends State<NavBarWidget> {
                                         const SizedBox(
                                           width: 100,
                                         ),
-                                        const Text(
-                                          "Главная",
-                                          style: TextStyle(
-                                              color: Color(0xff161C24),
-                                              fontSize: 18,
-                                              fontFamily: "SF",
-                                              fontWeight: FontWeight.w300),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _currentPageName =
+                                                  _tabs.keys.toList()[0];
+                                            });
+                                          },
+                                          child: const Text(
+                                            "Главная",
+                                            style: TextStyle(
+                                                color: Color(0xff161C24),
+                                                fontSize: 18,
+                                                fontFamily: "SF",
+                                                fontWeight: FontWeight.w300),
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 32,
                                         ),
-                                        const Text(
-                                          "Каталог",
-                                          style: TextStyle(
-                                              color: Color(0xff161C24),
-                                              fontSize: 18,
-                                              fontFamily: "SF",
-                                              fontWeight: FontWeight.w300),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _currentPageName =
+                                                  _tabs.keys.toList()[1];
+                                            });
+                                          },
+                                          child: const Text(
+                                            "Каталог",
+                                            style: TextStyle(
+                                                color: Color(0xff161C24),
+                                                fontSize: 18,
+                                                fontFamily: "SF",
+                                                fontWeight: FontWeight.w300),
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 32,

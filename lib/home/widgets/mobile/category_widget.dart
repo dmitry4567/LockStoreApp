@@ -20,7 +20,7 @@ class CategoryWidgetMobile extends StatelessWidget {
             ),
           ),
           GridView.count(
-            primary: false,
+            primary: true,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.all(20),

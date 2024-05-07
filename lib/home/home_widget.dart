@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:LockStore/backend/api_requests/api_calls.dart';
 import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
-import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
 import 'package:LockStore/home/model.dart';
 import 'package:LockStore/home/widgets/desktop/category_widget.dart';
 import 'package:LockStore/home/widgets/desktop/information_widget.dart';
@@ -13,21 +10,17 @@ import 'package:LockStore/home/widgets/mobile/question_widget.dart';
 import 'package:LockStore/home/widgets/product.dart';
 import 'package:LockStore/home/widgets/promo_widget.dart';
 import 'package:LockStore/layout/adaptive.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
-import '../../flutter_flow/custom_functions.dart' as functions;
 
-class HomeWidget extends StatefulWidget {
-  const HomeWidget({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomeWidget> createState() => _HomeWidgetState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> {
+class _HomePageState extends State<HomePage> {
   Future<dynamic> getDataProduct() async {
     try {
       final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
@@ -206,7 +199,3 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 }
-
-// final isDesktop = isDisplayDesktop(context);
-//     if (isDesktop) {}
-//     else {}
