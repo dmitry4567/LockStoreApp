@@ -5,6 +5,7 @@ import 'package:LockStore/product/product.dart';
 import 'package:LockStore/sign_in/sign_in_widget.dart';
 import 'package:LockStore/sign_up/sign_up_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
 
