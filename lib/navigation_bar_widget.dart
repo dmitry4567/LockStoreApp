@@ -1,11 +1,8 @@
 import 'package:LockStore/category/category_widget.dart';
-import 'package:LockStore/favorites/favorites_widget.dart';
 import 'package:LockStore/flutter_flow/nav/nav.dart';
 import 'package:LockStore/home/home_widget.dart';
-import 'package:LockStore/home/widgets/desktop/category_widget.dart';
 import 'package:LockStore/layout/adaptive.dart';
 import 'package:LockStore/product/product.dart';
-import 'package:LockStore/profile/profile_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,7 +27,8 @@ class _NavBarPageState extends State<NavBarWidget> {
 
   Map<String, Widget> _tabs = {
     'Home': HomePage(),
-    'Category': ProductPage(),
+    'Category': CategoryPage(),
+    'ProductPage': ProductPage(),
   };
 
   @override

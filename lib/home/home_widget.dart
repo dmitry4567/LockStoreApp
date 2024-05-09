@@ -24,19 +24,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future<dynamic> getDataProduct() async {
     try {
-      // final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
-      //   "Access-Control-Allow-Origin": "*",
-      //   'Content-Type': 'application/json',
-      //   'Accept': '*/*'
-      // });
+      final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': '*/*'
+      });
 
-      // if (response.statusCode == 200) {
-      //   List<dynamic> projects = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        List<dynamic> projects = jsonDecode(response.body);
 
-      //   return projects.map((project) => Product.fromJson(project)).toList();
-      // } else {
-      //   print('Ошибка HTTP: ${response.statusCode}');
-      // }
+        print(projects);
+
+        return projects.map((project) => Product.fromJson(project)).toList();
+      } else {
+        print('Ошибка HTTP: ${response.statusCode}');
+      }
     } catch (error) {
       print('Ошибка: $error');
     }

@@ -68,7 +68,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'ProductPage',
               path: 'productPage',
-              builder: (context, params) => const ProductPage(),
+              builder: (context, params) => const NavBarWidget(initialPage: 'ProductPage'),
             ),
           ]
               .map(

@@ -23,7 +23,7 @@ class Product {
         photos: List<Photo>.from(
           json['photoItems'].map((photo) => Photo.fromJson(photo)),
         ),
-        material: json['material']['name'],
+        material: json['material'] != null ? json['material']['name'] : ""
       );
 }
 
