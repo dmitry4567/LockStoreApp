@@ -2,12 +2,14 @@ import 'package:LockStore/product/widgets/desktop/row_cart_widget.dart';
 import 'package:flutter/material.dart';
 
 class FeatureWidget extends StatelessWidget {
-  const FeatureWidget({super.key});
+  const FeatureWidget({super.key, required this.material});
+
+  final String? material;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 40),
+    return Padding(
+      padding: const EdgeInsets.only(top: 40),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -16,27 +18,27 @@ class FeatureWidget extends StatelessWidget {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RowCartWidget(
+                  const RowCartWidget(
                     title: "Память на количество карт",
                     text: "2023",
                     color: true,
                   ),
                   RowCartWidget(
                     title: "Материал",
-                    text: "Нет",
+                    text: material ?? "Нет",
                     color: false,
                   ),
-                  RowCartWidget(
+                  const RowCartWidget(
                     title: "Цвет",
                     text: "Черный, хром",
                     color: true,
                   ),
-                  RowCartWidget(
+                  const RowCartWidget(
                     title: "Питание",
                     text: "DC 6V, 4 AAA",
                     color: false,
                   ),
-                  RowCartWidget(
+                  const RowCartWidget(
                     title: "Разблокировка",
                     text:
                         "Пин-код, карта или браслет Mifaire, ключ, приложение, отпечаток пальца",
@@ -44,10 +46,10 @@ class FeatureWidget extends StatelessWidget {
                   ),
                 ]),
           ),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
-          Expanded(
+          const Expanded(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
