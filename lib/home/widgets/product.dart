@@ -1,6 +1,7 @@
 import 'package:LockStore/backend/api_requests/api_calls.dart';
 import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
 import 'package:LockStore/home/model.dart';
+import 'package:LockStore/navigation_bar_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,10 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push('/productPage');
+        // context.push('/productPage');
+        final navBarWidgetState =
+            context.findAncestorStateOfType<NavBarPageState>();
+        navBarWidgetState!.changePage(2);
       },
       child: Container(
         margin: const EdgeInsets.only(right: 30),
@@ -42,7 +46,8 @@ class _ProductCardState extends State<ProductCard> {
                     fit: BoxFit.cover,
                     placeholder: (context, url) =>
                         const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
                 Padding(

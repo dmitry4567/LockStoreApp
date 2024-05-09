@@ -19,10 +19,10 @@ class NavBarWidget extends StatefulWidget {
   final FFParameters? params;
 
   @override
-  State<NavBarWidget> createState() => _NavBarPageState();
+  State<NavBarWidget> createState() => NavBarPageState();
 }
 
-class _NavBarPageState extends State<NavBarWidget> {
+class NavBarPageState extends State<NavBarWidget> {
   late String _currentPageName;
 
   Map<String, Widget> _tabs = {
@@ -35,6 +35,12 @@ class _NavBarPageState extends State<NavBarWidget> {
   void initState() {
     super.initState();
     _currentPageName = widget.initialPage;
+  }
+
+  void changePage(int value) {
+    setState(() {
+      _currentPageName = _tabs.keys.toList()[value];
+    });
   }
 
   @override
