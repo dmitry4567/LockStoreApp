@@ -10,6 +10,7 @@ import 'package:LockStore/home/widgets/mobile/question_widget.dart';
 import 'package:LockStore/home/widgets/product.dart';
 import 'package:LockStore/home/widgets/promo_widget.dart';
 import 'package:LockStore/layout/adaptive.dart';
+import 'package:LockStore/product/widgets/desktop/call_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,19 +24,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future<dynamic> getDataProduct() async {
     try {
-      final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
-        "Access-Control-Allow-Origin": "*",
-        'Content-Type': 'application/json',
-        'Accept': '*/*'
-      });
+      // final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
+      //   "Access-Control-Allow-Origin": "*",
+      //   'Content-Type': 'application/json',
+      //   'Accept': '*/*'
+      // });
 
-      if (response.statusCode == 200) {
-        List<dynamic> projects = jsonDecode(response.body);
+      // if (response.statusCode == 200) {
+      //   List<dynamic> projects = jsonDecode(response.body);
 
-        return projects.map((project) => Product.fromJson(project)).toList();
-      } else {
-        print('Ошибка HTTP: ${response.statusCode}');
-      }
+      //   return projects.map((project) => Product.fromJson(project)).toList();
+      // } else {
+      //   print('Ошибка HTTP: ${response.statusCode}');
+      // }
     } catch (error) {
       print('Ошибка: $error');
     }
@@ -47,7 +48,8 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       body: isDesktop
-          ? SizedBox(
+          ? Container(
+              color: Colors.white,
               height: double.infinity,
               child: SingleChildScrollView(
                 child: Column(
@@ -123,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
+                    const CallWidget(),
                   ],
                 ),
               ),

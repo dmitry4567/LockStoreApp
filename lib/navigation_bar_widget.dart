@@ -29,9 +29,8 @@ class _NavBarPageState extends State<NavBarWidget> {
   late String _currentPageName;
 
   Map<String, Widget> _tabs = {
-    'Home': ProductPage(),
-    'Category': CategoryPage(),
-    'Favorites': FavoritesWidget(),
+    'Home': HomePage(),
+    'Category': ProductPage(),
   };
 
   @override
@@ -49,9 +48,12 @@ class _NavBarPageState extends State<NavBarWidget> {
       appBar: !isDesktop
           ? AppBar(
               backgroundColor: Colors.white,
-              leading: const Icon(
-                Icons.menu,
-                size: 30,
+              leading: GestureDetector(
+                onTap: () {},
+                child: const Icon(
+                  Icons.menu,
+                  size: 30,
+                ),
               ),
               actions: [
                 Padding(

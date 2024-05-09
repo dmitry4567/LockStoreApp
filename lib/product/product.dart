@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:LockStore/backend/api_requests/api_calls.dart';
 import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
@@ -21,22 +22,29 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   Future<dynamic> getDataOneProduct() async {
     try {
-      final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
+      final response = await http.get(Uri.parse("$baseUrl/products/1"), headers: {
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
         'Accept': '*/*'
       });
 
       if (response.statusCode == 200) {
-        List<dynamic> projects = jsonDecode(response.body);
+        Map<String, dynamic> project = jsonDecode(response.body);
 
-        return projects.map((project) => Product.fromJson(project)).toList();
+        print(response.body.toString());
+        return Product.fromJson(project);
       } else {
         print('Ошибка HTTP: ${response.statusCode}');
       }
     } catch (error) {
       print('Ошибка: $error');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataOneProduct();
   }
 
   String _currentPageName = 'Home';
@@ -77,13 +85,43 @@ class _ProductPageState extends State<ProductPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: Container(
-                                      width: 600,
-                                      height: 600,
-                                      alignment: Alignment.centerRight,
-                                      child: Image.asset(
-                                        "assets/images/lock1.jpg",
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: 600,
+                                          height: 600,
+                                          alignment: Alignment.centerRight,
+                                          child: Image.asset(
+                                            "assets/images/lock1.jpg",
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          height: 140,
+                                          child: ListView.builder(
+                                            itemCount: 4,
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return Container(
+                                                width: 140,
+                                                height: 140,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey,
+                                                    width: 0.5,
+                                                  ),
+                                                ),
+                                                child: Image.asset(
+                                                  "assets/images/lock1.jpg",
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                   const SizedBox(
@@ -461,7 +499,14 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               ),
             )
-          : const Center(child: Text("fesfsdrgdrgdrg")),
+          : SizedBox(
+              height: double.infinity,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [],
+                ),
+              ),
+            ),
     );
   }
 }

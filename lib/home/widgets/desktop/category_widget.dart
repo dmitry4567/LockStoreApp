@@ -7,6 +7,7 @@ class CategoryWidgetDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 1232,
       padding: const EdgeInsets.only(top: 100),
       color: Colors.white,
       child: Column(
@@ -43,8 +44,8 @@ class CategoryWidgetDesktop extends StatelessWidget {
                       right: 0,
                       child: Image.asset(
                         "assets/images/lock2.png",
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
                       ),
                     ),
                     Positioned(
@@ -105,8 +106,8 @@ class CategoryWidgetDesktop extends StatelessWidget {
                       right: 0,
                       child: Image.asset(
                         "assets/images/lock3.png",
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
                       ),
                     ),
                     Positioned(
@@ -167,8 +168,8 @@ class CategoryWidgetDesktop extends StatelessWidget {
                       right: 0,
                       child: Image.asset(
                         "assets/images/lock4.png",
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
                       ),
                     ),
                     Positioned(
@@ -229,8 +230,8 @@ class CategoryWidgetDesktop extends StatelessWidget {
                       right: 0,
                       child: Image.asset(
                         "assets/images/lock5.png",
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.width * 0.3 > 400 ? 400 : MediaQuery.of(context).size.width * 0.3,
                       ),
                     ),
                     Positioned(

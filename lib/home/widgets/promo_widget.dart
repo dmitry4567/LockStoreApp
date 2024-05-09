@@ -20,10 +20,11 @@ class _PromoWidgetControllerState extends State<PromoWidgetController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        Container(
           height: widget.child is PromoWidgetDesktop
               ? 774 + 82
               : MediaQuery.of(context).size.height * 0.7,
+          color: Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -50,7 +51,7 @@ class _PromoWidgetControllerState extends State<PromoWidgetController> {
           ),
         ),
         Container(
-          color: Colors.black.withOpacity(0.02),
+          width: 300,
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -342,7 +343,7 @@ class PromoWidgetMobile extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                 Container(
+                Container(
                   width: double.infinity,
                   height: 50,
                   child: FFButtonWidget(
