@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavBarWidget extends StatefulWidget {
   const NavBarWidget({
@@ -26,7 +27,7 @@ class NavBarPageState extends State<NavBarWidget> {
   late String _currentPageName;
 
   Map<String, Widget> _tabs = {
-    'Home': HomePage(),
+    'Home': ProductPage(),
     'Category': CategoryPage(),
     'ProductPage': ProductPage(),
   };
@@ -198,10 +199,24 @@ class NavBarPageState extends State<NavBarWidget> {
                                             const SizedBox(
                                               width: 24,
                                             ),
-                                            SvgPicture.asset(
-                                                width: 32,
-                                                height: 32,
-                                                "assets/icons/shop.svg"),
+                                            InkWell(
+                                              onTap: () async {
+                                                final prefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
+
+                                                setState(() {
+                                                  prefs.clear();
+
+                                                  context
+                                                      .push("/signIn");
+                                                });
+                                              },
+                                              child: SvgPicture.asset(
+                                                  width: 32,
+                                                  height: 32,
+                                                  "assets/icons/shop.svg"),
+                                            ),
                                           ],
                                         ),
                                       ],

@@ -165,6 +165,16 @@ class _ProductPageState extends State<ProductPage> {
                                                           ),
                                                           child:
                                                               CachedNetworkImage(
+                                                            colorBlendMode:
+                                                                BlendMode.color,
+                                                            color: index ==
+                                                                    choosePhoto
+                                                                ? const Color(
+                                                                        0xff7DBEFF)
+                                                                    .withOpacity(
+                                                                        0.07)
+                                                                : Colors
+                                                                    .transparent,
                                                             imageUrl:
                                                                 "$baseUrl/photoItem/product/${snapshot.data.photos[index].fileName}",
                                                             fit: BoxFit.cover,
