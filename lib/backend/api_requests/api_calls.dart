@@ -3,7 +3,7 @@ import 'package:scope_function/scope_function.dart';
 import 'api_manager.dart';
 export 'api_manager.dart' show ApiCallResponse;
 
-const baseUrl = "https://dc9a-87-117-51-176.ngrok-free.app/api";
+const baseUrl = "https://82f5-87-117-51-176.ngrok-free.app/api";
 
 final dioClient = Dio(
   BaseOptions(
@@ -57,8 +57,13 @@ class SignInCall {
     }''';
 
     return ApiManager.instance.makeApiCall(
-      apiPath: '/auth/signIn',
+      apiPath: '/auth/login',
       callType: ApiCallType.POST,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': '*/*'
+      },
       params: {},
       body: body,
       bodyType: BodyType.JSON,
