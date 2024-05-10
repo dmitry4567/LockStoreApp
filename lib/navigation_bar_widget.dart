@@ -27,7 +27,7 @@ class NavBarPageState extends State<NavBarWidget> {
   late String _currentPageName;
 
   Map<String, Widget> _tabs = {
-    'Home': ProductPage(),
+    'Home': HomePage(),
     'Category': CategoryPage(),
     'ProductPage': ProductPage(),
   };
@@ -42,6 +42,20 @@ class NavBarPageState extends State<NavBarWidget> {
     setState(() {
       _currentPageName = _tabs.keys.toList()[value];
     });
+  }
+
+  double _containerWidth = 0.0;
+
+  void _expandContainer() {
+    if (_containerWidth == 0.0) {
+      setState(() {
+        _containerWidth = 300.0;
+      });
+    } else {
+      setState(() {
+        _containerWidth = 0.0;
+      });
+    }
   }
 
   @override
@@ -200,17 +214,17 @@ class NavBarPageState extends State<NavBarWidget> {
                                               width: 24,
                                             ),
                                             InkWell(
-                                              onTap: () async {
-                                                final prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
+                                              onTap: () {
+                                                _expandContainer();
+                                                // final prefs =
+                                                //     await SharedPreferences
+                                                //         .getInstance();
 
-                                                setState(() {
-                                                  prefs.clear();
+                                                // setState(() {
+                                                //   prefs.clear();
 
-                                                  context
-                                                      .push("/signIn");
-                                                });
+                                                //   context.push("/signIn");
+                                                // });
                                               },
                                               child: SvgPicture.asset(
                                                   width: 32,
@@ -276,6 +290,33 @@ class NavBarPageState extends State<NavBarWidget> {
                   ),
                 )
               : Container(),
+          Positioned(
+            top: 20,
+            right: 100,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: AnimatedContainer(
+                  width: _containerWidth,
+                  height: _containerWidth,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  color: Colors.white,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 20,
+                        right: 20,
+                        child: GestureDetector(
+                          onTap: () {
+                            _expandContainer();
+                          },
+                          child: const Icon(Icons.clear, color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ),
         ],
       ),
     );
@@ -283,9 +324,9 @@ class NavBarPageState extends State<NavBarWidget> {
 }
 
 //  onTap: (index) {
-            //     if (index != 3) {
-            //       setState(() {
-            //         _currentPageName = _tabs.keys.toList()[index];
-            //       });
-            //     }
-            //   },
+//     if (index != 3) {
+//       setState(() {
+//         _currentPageName = _tabs.keys.toList()[index];
+//       });
+//     }
+//   },
