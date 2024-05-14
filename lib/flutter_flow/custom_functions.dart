@@ -80,3 +80,23 @@ SnackBar setupSnackBar(String text) {
     backgroundColor: Colors.red,
   );
 }
+
+SnackBar setupSnackBarInfo(String text) {
+  return SnackBar(
+    content: Row(children: [
+      Expanded(
+          child: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: Text(
+                text,
+                style: GoogleFonts.getFont(
+                  'Roboto Flex',
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              )))
+    ]),
+    duration: const Duration(milliseconds: 4000),
+    backgroundColor: const Color(0xff4295E4),
+  );
+}

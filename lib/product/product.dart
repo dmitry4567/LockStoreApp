@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:js_interop';
-
+import '../flutter_flow/custom_functions.dart' as functions;
+import 'package:LockStore/app_state.dart';
 import 'package:LockStore/backend/api_requests/api_calls.dart';
 import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
 import 'package:LockStore/home/model.dart';
@@ -35,6 +34,29 @@ class _ProductPageState extends State<ProductPage> {
         Map<String, dynamic> project = jsonDecode(response.body);
 
         return Product.fromJson(project);
+      }
+    } catch (error) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<dynamic> addProductToCart(String productId) async {
+    try {
+      final response = await http
+          .post(Uri.parse("$baseUrl/cart/addProductToCart"), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*/*',
+        'Authorization': 'Bearer ${FFAppState().userAuthToken}'
+      }, body: {
+        "productId": productId,
+        "quantity": "1"
+      });
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> project = jsonDecode(response.body);
+
+        return project['product'];
       }
     } catch (error) {
       return null;
@@ -83,7 +105,7 @@ class _ProductPageState extends State<ProductPage> {
                     if (snapshot.hasData) {
                       Map<String, Widget> _tabs = {
                         'Feature': FeatureWidget(
-                          material: data!.material,
+                          material: data?.material,
                         ),
                         'Description': const DescriptionWidget(),
                         'Comments': const Text("Comments"),
@@ -410,8 +432,21 @@ class _ProductPageState extends State<ProductPage> {
                                                         width: 288,
                                                         height: 50,
                                                         child: FFButtonWidget(
-                                                          onPressed:
-                                                              () async {},
+                                                          onPressed: () async {
+                                                            addProductToCart(
+                                                                    snapshot
+                                                                        .data.id
+                                                                        .toString())
+                                                                .then((_) {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(
+                                                                      functions
+                                                                          .setupSnackBarInfo(
+                                                                              "Товар добавлен в корзину"));
+                                                            });
+                                                          },
                                                           text: 'Купить',
                                                           options:
                                                               const FFButtonOptions(
