@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:LockStore/backend/api_requests/api_calls.dart';
 import 'package:LockStore/category/category_widget.dart';
 import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
 import 'package:LockStore/flutter_flow/nav/nav.dart';
 import 'package:LockStore/home/home_widget.dart';
+import 'package:LockStore/home/model.dart';
 import 'package:LockStore/layout/adaptive.dart';
 import 'package:LockStore/product/product.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class NavBarWidget extends StatefulWidget {
   const NavBarWidget({
@@ -291,9 +296,50 @@ class NavBarPageState extends State<NavBarWidget> {
 }
 
 void _showSimpleDialog(context) {
+  Future<dynamic> getDataOrder() async {
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': '*/*'
+      });
 
-  void getDataOrder() {
-    
+      if (response.statusCode == 200) {
+        List<dynamic> projects = jsonDecode(response.body);
+
+        print(projects);
+
+        return projects.map((project) => Product.fromJson(project)).toList();
+      } else {
+        print('Ошибка HTTP: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Ошибка: $error');
+    }
+  }
+
+  Future<int?> getTotalPrice() async {
+    try {
+      final response = await http
+          .get(Uri.parse("$baseUrl/cart/getUserCartTotalPrice"), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': '*/*',
+        'Authorization':
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6eyJpZCI6MiwidmFsdWUiOiJ1c2VyIn0sImlhdCI6MTcxNTcwMjU3MSwiZXhwIjoxNzE4Mjk0NTcxfQ.KS_fZjA5ndc4rFFuMbTk4BuJzqKEuVAP0lgiiLbO4dk'
+      });
+
+      if (response.statusCode == 200) {
+        int price = jsonDecode(response.body);
+
+        return price;
+      } else {
+        print('Ошибка HTTP: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Ошибка: $error');
+    }
+    return null;
   }
 
   showDialog(
@@ -498,15 +544,31 @@ void _showSimpleDialog(context) {
                             const SizedBox(
                               width: 8,
                             ),
-                            Text(
-                              "${66000}₽",
-                              style: const TextStyle(
-                                fontFamily: 'SF',
-                                color: Color(0xFF161C24),
-                                fontSize: 26,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                            FutureBuilder(
+                                future: getTotalPrice(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      "${snapshot.data}₽",
+                                      style: const TextStyle(
+                                        fontFamily: 'SF',
+                                        color: Color(0xFF161C24),
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    );
+                                  } else {
+                                    return const Text(
+                                      "...",
+                                      style: TextStyle(
+                                        fontFamily: 'SF',
+                                        color: Color(0xFF161C24),
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    );
+                                  }
+                                }),
                           ],
                         ),
                         const SizedBox(
