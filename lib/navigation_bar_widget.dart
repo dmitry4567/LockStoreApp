@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:LockStore/app_state.dart';
 import 'package:LockStore/backend/api_requests/api_calls.dart';
 import 'package:LockStore/category/category_widget.dart';
 import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
 import 'package:LockStore/flutter_flow/nav/nav.dart';
+import 'package:LockStore/home/cartItem.dart';
 import 'package:LockStore/home/home_widget.dart';
 import 'package:LockStore/home/model.dart';
 import 'package:LockStore/layout/adaptive.dart';
@@ -33,7 +35,7 @@ class NavBarPageState extends State<NavBarWidget> {
   late String _currentPageName;
 
   Map<String, Widget> _tabs = {
-    'Home': HomePage(),
+    'Home': const HomePage(),
     'Category': CategoryPage(),
     'ProductPage': ProductPage(),
   };
@@ -296,28 +298,6 @@ class NavBarPageState extends State<NavBarWidget> {
 }
 
 void _showSimpleDialog(context) {
-  Future<dynamic> getDataOrder() async {
-    try {
-      final response = await http.get(Uri.parse("$baseUrl/products"), headers: {
-        "Access-Control-Allow-Origin": "*",
-        'Content-Type': 'application/json',
-        'Accept': '*/*'
-      });
-
-      if (response.statusCode == 200) {
-        List<dynamic> projects = jsonDecode(response.body);
-
-        print(projects);
-
-        return projects.map((project) => Product.fromJson(project)).toList();
-      } else {
-        print('Ошибка HTTP: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Ошибка: $error');
-    }
-  }
-
   Future<int?> getTotalPrice() async {
     try {
       final response = await http
@@ -325,14 +305,82 @@ void _showSimpleDialog(context) {
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
         'Accept': '*/*',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6eyJpZCI6MiwidmFsdWUiOiJ1c2VyIn0sImlhdCI6MTcxNTcwMjU3MSwiZXhwIjoxNzE4Mjk0NTcxfQ.KS_fZjA5ndc4rFFuMbTk4BuJzqKEuVAP0lgiiLbO4dk'
+        'Authorization': 'Bearer ${FFAppState().userAuthToken}'
       });
 
       if (response.statusCode == 200) {
         int price = jsonDecode(response.body);
 
         return price;
+      } else {
+        print('Ошибка HTTP: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Ошибка: $error');
+    }
+    return null;
+  }
+
+  Future<List<CartItem>> getCartItems() async {
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/cart/all"), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': '*/*',
+        'Authorization': 'Bearer ${FFAppState().userAuthToken}'
+      });
+
+      if (response.statusCode == 200) {
+        List<dynamic> projects = jsonDecode(response.body);
+
+        print(projects);
+
+        return projects.map((project) => CartItem.fromJson(project)).toList();
+      } else {
+        print('Ошибка HTTP: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Ошибка: $error');
+    }
+    return [];
+  }
+
+  Future<dynamic> deleteProduct(String id) async {
+    try {
+      final response =
+          await http.delete(Uri.parse("$baseUrl/cart/$id"), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': '*/*',
+        'Authorization': 'Bearer ${FFAppState().userAuthToken}'
+      });
+
+      if (response.statusCode == 200) {
+        print("delete");
+      } else {
+        print('Ошибка HTTP: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Ошибка: $error');
+    }
+    return null;
+  }
+
+  Future<dynamic> updateQuantityProduct(int productId, int quantity) async {
+    try {
+      final response = await http
+          .patch(Uri.parse("$baseUrl/cart/updateProductFromCart"), headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*/*',
+        'Authorization': 'Bearer ${FFAppState().userAuthToken}'
+      }, body: {
+        "productId": productId.toString(),
+        "quantity": quantity.toString()
+      });
+
+      if (response.statusCode == 200) {
+        print("update");
+        return "1";
       } else {
         print('Ошибка HTTP: ${response.statusCode}');
       }
@@ -396,127 +444,191 @@ void _showSimpleDialog(context) {
                     color: Color(0xffEAEAEA),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: 9,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          // height: 200,
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 24,
-                          ),
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                "assets/images/lock1.jpg",
-                                width: 136,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 136,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 4,
+                    child: FutureBuilder<List<CartItem>>(
+                      future: getCartItems(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator(
+                                  color: Color(0xFFFFA000)));
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              itemCount: snapshot.data.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 30,
+                                    vertical: 24,
                                   ),
+                                  color: Colors.white,
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            "Дверной Замок Golden Soft для офиса",
-                                            style: TextStyle(
-                                              fontFamily: 'SF',
-                                              color: Color(0xFF161C24),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {},
-                                                child: SvgPicture.asset(
-                                                    "assets/icons/minus.svg"),
-                                              ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color:
-                                                        const Color(0xffEAEAEA),
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                width: 60,
-                                                height: 32,
-                                                alignment: Alignment.center,
-                                                child: const Text("1"),
-                                              ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {},
-                                                child: SvgPicture.asset(
-                                                    "assets/icons/plus.svg"),
-                                              ),
-                                            ],
-                                          )
-                                        ],
+                                      Image.asset(
+                                        "assets/images/lock1.jpg",
+                                        width: 136,
                                       ),
-                                      const Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Row(
+                                      Expanded(
+                                        child: Container(
+                                          height: 136,
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 4,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Icon(
-                                                Icons.delete_outline,
-                                                color: Color(0xff4295E4),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    snapshot.data[index].product
+                                                        .title,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'SF',
+                                                      color: Color(0xFF161C24),
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () async {
+                                                          updateQuantityProduct(
+                                                              snapshot
+                                                                  .data[index]
+                                                                  .product
+                                                                  .id,
+                                                              snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .quantity -
+                                                                  1);
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                            "assets/icons/minus.svg"),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                            color: const Color(
+                                                                0xffEAEAEA),
+                                                            width: 1,
+                                                          ),
+                                                        ),
+                                                        width: 60,
+                                                        height: 32,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          snapshot.data[index]
+                                                              .quantity
+                                                              .toString(),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          updateQuantityProduct(
+                                                              snapshot
+                                                                  .data[index]
+                                                                  .product
+                                                                  .id,
+                                                              snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .quantity +
+                                                                  1);
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                            "assets/icons/plus.svg"),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
                                               ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                "Удалить",
-                                                style: TextStyle(
-                                                  fontFamily: 'SF',
-                                                  color: Color(0xFF4295E4),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      await deleteProduct(
+                                                          snapshot.data[index]
+                                                              .product.id
+                                                              .toString());
+                                                    },
+                                                    child: const Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.delete_outline,
+                                                          color:
+                                                              Color(0xff4295E4),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 4,
+                                                        ),
+                                                        Text(
+                                                          "Удалить",
+                                                          style: TextStyle(
+                                                            fontFamily: 'SF',
+                                                            color: Color(
+                                                                0xFF4295E4),
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "${snapshot.data[index].product.price.toString()}₽",
+                                                    style: const TextStyle(
+                                                      fontFamily: 'SF',
+                                                      color: Color(0xFF161C24),
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          Text(
-                                            "33 000₽",
-                                            style: TextStyle(
-                                              fontFamily: 'SF',
-                                              color: Color(0xFF161C24),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(
+                                child: Text("Ошибка получения данных"));
+                          }
+                        }
                       },
                     ),
                   ),

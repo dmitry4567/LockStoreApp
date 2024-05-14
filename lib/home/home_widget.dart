@@ -118,7 +118,8 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   } else {
                                     return const Center(
-                                        child: Text("Ошибка получения данных"));
+                                      child: Text("Ошибка получения данных"),
+                                    );
                                   }
                                 }
                               },
