@@ -3,7 +3,7 @@ import 'package:scope_function/scope_function.dart';
 import 'api_manager.dart';
 export 'api_manager.dart' show ApiCallResponse;
 
-const baseUrl = "https://82f5-87-117-51-176.ngrok-free.app/api";
+const baseUrl = "https://87ac-87-117-54-216.ngrok-free.app/api";
 
 final dioClient = Dio(
   BaseOptions(

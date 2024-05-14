@@ -242,23 +242,6 @@ class _SignInWidgetState extends State<SignInWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 17),
-                          child: InkWell(
-                            onTap: () {
-                              // context.pushNamed("RetrivePassword");
-                            },
-                            child: Text(
-                              "Я забыл пароль",
-                              style: TextStyle(
-                                color: const Color(0xFF252B37).withOpacity(0.2),
-                                fontSize: 16,
-                                fontFamily: 'RobotoFlex',
-                                fontWeight: FontWeight.w200,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
                           padding: const EdgeInsets.only(top: 28),
                           child: Container(
                             width: double.infinity,
