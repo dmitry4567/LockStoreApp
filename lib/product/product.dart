@@ -19,17 +19,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({super.key});
+  const ProductPage({super.key, required this.productId});
+
+  final String productId;
 
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
 
 class _ProductPageState extends State<ProductPage> {
-  Future<Product?> getDataOneProduct() async {
+  Future<Product?> getDataOneProduct(String productId) async {
     try {
       final response =
-          await http.get(Uri.parse("$baseUrl/products/1"), headers: {
+          await http.get(Uri.parse("$baseUrl/products/$productId"), headers: {
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
         'Accept': '*/*'
@@ -72,11 +74,12 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     super.initState();
+    print(widget.productId);
     getData();
   }
 
   void getData() async {
-    data = await getDataOneProduct();
+    data = await getDataOneProduct(widget.productId);
   }
 
   Product? data;
@@ -95,7 +98,7 @@ class _ProductPageState extends State<ProductPage> {
           ? SizedBox(
               height: double.infinity,
               child: FutureBuilder<Product?>(
-                future: data == null ? getDataOneProduct() : null,
+                future: data == null ? getDataOneProduct(widget.productId) : null,
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -674,7 +677,7 @@ class _ProductPageState extends State<ProductPage> {
               width: double.infinity,
               height: double.infinity,
               child: FutureBuilder<Product?>(
-                future: data == null ? getDataOneProduct() : null,
+                future: data == null ? getDataOneProduct(widget.productId) : null,
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

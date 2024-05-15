@@ -14,7 +14,17 @@ class _CategoryPageState extends State<CategoryPage> {
     final isDesktop = isDisplayDesktop(context);
 
     return Scaffold(
-      body: isDesktop ? Text("fsfsef") : Text("fesfsdrgdrgdrg"),
+      body: isDesktop
+          ? Container(
+              width: 200,
+              height: 200,
+              color: Colors.red,
+            )
+          : Container(
+              width: 200,
+              height: 200,
+              color: Colors.green,
+            ),
     );
   }
 }

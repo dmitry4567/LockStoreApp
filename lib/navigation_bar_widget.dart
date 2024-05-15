@@ -3,6 +3,7 @@ import 'package:LockStore/cart/mobile/cartdialog_widget.dart';
 import 'package:LockStore/category/category_widget.dart';
 import 'package:LockStore/flutter_flow/nav/nav.dart';
 import 'package:LockStore/home/home_widget.dart';
+import 'package:LockStore/home/model.dart';
 import 'package:LockStore/layout/adaptive.dart';
 import 'package:LockStore/product/product.dart';
 import 'package:flutter/material.dart';
@@ -24,23 +25,22 @@ class NavBarWidget extends StatefulWidget {
 }
 
 class NavBarPageState extends State<NavBarWidget> {
-  late String _currentPageName;
+  late Widget _currentPageName;
 
   Map<String, Widget> _tabs = {
-    'Home': const ProductPage(),
+    'Home': HomePage(),
     'Category': CategoryPage(),
-    'ProductPage': ProductPage(),
   };
 
   @override
   void initState() {
     super.initState();
-    _currentPageName = widget.initialPage;
+    _currentPageName = const HomePage();
   }
 
-  void changePage(int value) {
+  void changePage(int value, Product product) {
     setState(() {
-      _currentPageName = _tabs.keys.toList()[value];
+      _currentPageName = ProductPage(productId: product.id.toString());
     });
   }
 
@@ -49,7 +49,7 @@ class NavBarPageState extends State<NavBarWidget> {
   @override
   Widget build(BuildContext context) {
     final isDesktop = isDisplayDesktop(context);
-    final currentIndex = _tabs.keys.toList().indexOf(_currentPageName);
+    // final currentIndex = _tabs.keys.toList().indexOf(_currentPageName);
 
     return Scaffold(
       key: _key,
@@ -91,7 +91,7 @@ class NavBarPageState extends State<NavBarWidget> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          _tabs[_currentPageName]!,
+          _currentPageName,
           isDesktop
               ? Positioned(
                   top: 0,
@@ -116,10 +116,18 @@ class NavBarPageState extends State<NavBarWidget> {
                                   children: [
                                     Row(
                                       children: [
-                                        SvgPicture.asset(
-                                          width: 50,
-                                          height: 42,
-                                          "assets/icons/logo.svg",
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _currentPageName =
+                                                  const HomePage();
+                                            });
+                                          },
+                                          child: SvgPicture.asset(
+                                            width: 50,
+                                            height: 42,
+                                            "assets/icons/logo.svg",
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 100,
@@ -128,7 +136,7 @@ class NavBarPageState extends State<NavBarWidget> {
                                           onTap: () {
                                             setState(() {
                                               _currentPageName =
-                                                  _tabs.keys.toList()[0];
+                                                  const HomePage();
                                             });
                                           },
                                           child: const Text(
@@ -147,7 +155,7 @@ class NavBarPageState extends State<NavBarWidget> {
                                           onTap: () {
                                             setState(() {
                                               _currentPageName =
-                                                  _tabs.keys.toList()[1];
+                                                  const CategoryPage();
                                             });
                                           },
                                           child: const Text(
