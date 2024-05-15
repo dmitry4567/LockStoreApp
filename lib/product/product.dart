@@ -715,8 +715,18 @@ class _ProductPageState extends State<ProductPage> {
                                           width: 50,
                                           height: 20,
                                           // color: Colors.green,
-                                          child: Image.asset(
-                                              "assets/images/lock1.jpg"),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "$baseUrl/photoItem/product/${snapshot.data.photos[choosePhoto].fileName}",
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                const Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
                                         ),
                                         Container(
                                           margin: const EdgeInsets.symmetric(
