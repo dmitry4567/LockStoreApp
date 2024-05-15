@@ -1,16 +1,16 @@
 import 'package:LockStore/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 
-class CallDesktop extends StatelessWidget {
-  const CallDesktop({super.key});
+class CallMobile extends StatelessWidget {
+  const CallMobile({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(top: 24),
       width: double.infinity,
-      margin: const EdgeInsets.only(top: 100),
       color: const Color(0xffF2F8FF),
-      height: 332,
+      height: 384,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -18,16 +18,16 @@ class CallDesktop extends StatelessWidget {
             "Мы Вам перезвоним",
             style: TextStyle(
               color: Color(0xff161C24),
-              fontSize: 42,
+              fontSize: 22,
               fontFamily: "SF",
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(
-            height: 24,
+            height: 16,
           ),
           const Text(
-            "Если у вас возникли какие-то вопросы или проблемы, заполните\nформу и мы Вам перезвоним.",
+            "Если у вас возникли какие-то вопросы или\nпроблемы, заполните форму и мы Вам\nперезвоним.",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff454F5B),
@@ -39,13 +39,13 @@ class CallDesktop extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          Row(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 240,
+              Container(
                 height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
                   obscureText: false,
                   decoration: InputDecoration(
@@ -95,11 +95,11 @@ class CallDesktop extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 24,
+                height: 16,
               ),
-              SizedBox(
-                width: 240,
+              Container(
                 height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
                   obscureText: false,
                   decoration: InputDecoration(
@@ -149,10 +149,11 @@ class CallDesktop extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 24,
+                height: 24,
               ),
-              SizedBox(
-                width: 220,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 height: 50,
                 child: FFButtonWidget(
                   onPressed: () async {},

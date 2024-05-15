@@ -11,6 +11,7 @@ import 'package:LockStore/home/widgets/product.dart';
 import 'package:LockStore/home/widgets/promo_widget.dart';
 import 'package:LockStore/layout/adaptive.dart';
 import 'package:LockStore/product/widgets/desktop/call_widget.dart';
+import 'package:LockStore/product/widgets/moblie/call_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -128,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    const CallWidget(),
+                    const CallDesktop(),
                   ],
                 ),
               ),
@@ -208,6 +209,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
+             
                   ],
                 ),
               ),
