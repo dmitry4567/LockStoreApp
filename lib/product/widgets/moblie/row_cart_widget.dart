@@ -4,15 +4,11 @@ class RowCartWidget extends StatelessWidget {
   const RowCartWidget(
       {super.key,
       required this.title,
-      required this.fontSizeTitle,
       required this.text,
-      required this.fontSizeText,
       required this.color});
 
   final String title;
-  final double fontSizeTitle;
   final String text;
-  final double fontSizeText;
   final bool color;
 
   @override
@@ -29,23 +25,20 @@ class RowCartWidget extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: TextStyle(
-                color: const Color(0xff181818),
-                fontSize: fontSizeTitle,
+              style: const TextStyle(
+                color: Color(0xff181818),
+                fontSize: 16,
                 fontFamily: "SF",
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          const SizedBox(
-            width: 16,
-          ),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(
-                color: const Color(0xff454F5B),
-                fontSize: fontSizeText,
+              style: const TextStyle(
+                color: Color(0xff454F5B),
+                fontSize: 14,
                 fontFamily: "SF",
                 fontWeight: FontWeight.w400,
               ),

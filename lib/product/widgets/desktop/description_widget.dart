@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DescriptionWidget extends StatelessWidget {
-  const DescriptionWidget({super.key});
+class DescriptionDesktop extends StatelessWidget {
+  const DescriptionDesktop({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,8 @@
 import 'dart:convert';
+import 'package:LockStore/home/widgets/promo_widget.dart';
+import 'package:LockStore/product/widgets/moblie/description_widget.dart';
+import 'package:LockStore/product/widgets/moblie/feature_widget.dart';
+
 import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:LockStore/app_state.dart';
 import 'package:LockStore/backend/api_requests/api_calls.dart';
@@ -104,10 +108,10 @@ class _ProductPageState extends State<ProductPage> {
                   } else {
                     if (snapshot.hasData) {
                       Map<String, Widget> _tabs = {
-                        'Feature': FeatureWidget(
+                        'Feature': FeatureDesktop(
                           material: data?.material,
                         ),
-                        'Description': const DescriptionWidget(),
+                        'Description': const DescriptionDesktop(),
                         'Comments': const Text("Comments"),
                       };
                       return SingleChildScrollView(
@@ -664,12 +668,427 @@ class _ProductPageState extends State<ProductPage> {
                 },
               ),
             )
-          : SizedBox(
+          : Container(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              width: double.infinity,
               height: double.infinity,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [],
-                ),
+              child: FutureBuilder<Product?>(
+                future: data == null ? getDataOneProduct() : null,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF4295E4),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    if (snapshot.hasData) {
+                      Map<String, Widget> _tabs = {
+                        'Feature': FeatureMobile(
+                          material: data?.material,
+                        ),
+                        'Description': const DescriptionMobile(),
+                        'Comments': const Text("Comments"),
+                      };
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                height: 250,
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ScrollConfiguration(
+                                    behavior: MouseDraggableScrollBehavior(),
+                                    child: PageView(
+                                      controller: PageController(),
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          width: 50,
+                                          height: 20,
+                                          // color: Colors.green,
+                                          child: Image.asset(
+                                              "assets/images/lock1.jpg"),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          width: 50,
+                                          height: 20,
+                                          // color: Colors.green,
+                                          child: Image.asset(
+                                              "assets/images/lock1.jpg"),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          width: 50,
+                                          height: 20,
+                                          // color: Colors.green,
+                                          child: Image.asset(
+                                              "assets/images/lock1.jpg"),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(
+                                  top: 16,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          "JA182765",
+                                          style: TextStyle(
+                                              color: Color(0xff454F5B),
+                                              fontSize: 12,
+                                              fontFamily: "SF",
+                                              fontWeight: FontWeight.w400,
+                                              height: 1),
+                                        ),
+                                        const SizedBox(
+                                          width: 12,
+                                        ),
+                                        SizedBox(
+                                          height: 16,
+                                          child: ListView.separated(
+                                            shrinkWrap: true,
+                                            itemCount: 5,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            scrollDirection: Axis.horizontal,
+                                            separatorBuilder: (context, index) {
+                                              return const SizedBox(
+                                                width: 6,
+                                              );
+                                            },
+                                            itemBuilder: (context, index) {
+                                              return index < snapshot.data.rate
+                                                  ? SvgPicture.asset(
+                                                      "assets/icons/star_fill.svg")
+                                                  : SvgPicture.asset(
+                                                      "assets/icons/star_unfill.svg");
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        const Text(
+                                          "(12) отзывов",
+                                          style: TextStyle(
+                                            color: Color(0xff4295E4),
+                                            fontSize: 11,
+                                            fontFamily: "SF",
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Icon(
+                                      Icons.favorite_outline,
+                                      color: Color(0xff454F5B),
+                                      weight: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                snapshot.data.title,
+                                style: const TextStyle(
+                                  color: Color(0xff161C24),
+                                  fontSize: 22,
+                                  fontFamily: "SF",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              const Text(
+                                "Подходит для установки на:",
+                                style: TextStyle(
+                                  color: Color(0xff161C24),
+                                  fontSize: 12,
+                                  fontFamily: "SF",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.check_box,
+                                        size: 14,
+                                        color: Color(0xff4295E4),
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text(
+                                        "Деревянную дверь",
+                                        style: TextStyle(
+                                          color: Color(0xff454F5B),
+                                          fontSize: 12,
+                                          fontFamily: "SF",
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.check_box,
+                                        size: 14,
+                                        color: Color(0xff4295E4),
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text(
+                                        "Межкомнатную дверь",
+                                        style: TextStyle(
+                                          color: Color(0xff454F5B),
+                                          fontSize: 12,
+                                          fontFamily: "SF",
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              const ColorController(),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "${snapshot.data.price}₽",
+                                    style: const TextStyle(
+                                      color: Color(0xff161C24),
+                                      fontSize: 22,
+                                      fontFamily: "SF",
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Text(
+                                    "${snapshot.data.oldPrice}₽",
+                                    style: const TextStyle(
+                                      color: Color(0xffA4A4A4),
+                                      fontSize: 20,
+                                      fontFamily: "SF",
+                                      fontWeight: FontWeight.w300,
+                                      decoration: TextDecoration.lineThrough,
+                                      decorationColor: Color(0xffA4A4A4),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: FFButtonWidget(
+                                  onPressed: () async {
+                                    // addProductToCart(
+                                    //         snapshot
+                                    //             .data.id
+                                    //             .toString())
+                                    //     .then((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        functions.setupSnackBarInfo(
+                                            "Товар добавлен в корзину"));
+                                    // });
+                                  },
+                                  text: 'Купить',
+                                  options: const FFButtonOptions(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    color: Color(0xff4295E4),
+                                    elevation: 0,
+                                    textStyle: TextStyle(
+                                      fontFamily: 'SF',
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 32),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 38,
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _currentPageName =
+                                                _tabs.keys.toList()[0];
+                                          });
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Характеристики",
+                                              style: TextStyle(
+                                                color: Color(0xff161C24),
+                                                fontSize: 18,
+                                                fontFamily: "SF",
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            _currentPageName ==
+                                                    _tabs.keys.toList()[0]
+                                                ? const SizedBox(
+                                                    width: 140,
+                                                    child: Divider(
+                                                      color: Color(0xff4295E4),
+                                                      thickness: 3,
+                                                      height: 2,
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _currentPageName =
+                                                _tabs.keys.toList()[1];
+                                          });
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Описание",
+                                              style: TextStyle(
+                                                color: Color(0xff161C24),
+                                                fontSize: 18,
+                                                fontFamily: "SF",
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            _currentPageName ==
+                                                    _tabs.keys.toList()[1]
+                                                ? const SizedBox(
+                                                    width: 85,
+                                                    child: Divider(
+                                                      color: Color(0xff4295E4),
+                                                      thickness: 3,
+                                                      height: 2,
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _currentPageName =
+                                                _tabs.keys.toList()[2];
+                                          });
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Отзывы",
+                                              style: TextStyle(
+                                                color: Color(0xff161C24),
+                                                fontSize: 18,
+                                                fontFamily: "SF",
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            _currentPageName ==
+                                                    _tabs.keys.toList()[2]
+                                                ? const SizedBox(
+                                                    width: 67,
+                                                    child: Divider(
+                                                      color: Color(0xff4295E4),
+                                                      thickness: 3,
+                                                      height: 2,
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              _tabs[_currentPageName]!,
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  }
+                  return Container();
+                },
               ),
             ),
     );
@@ -759,7 +1178,7 @@ class _ColorControllerState extends State<ColorController> {
               );
             },
           ),
-        )
+        ),
       ],
     );
   }
