@@ -1,5 +1,6 @@
 import 'package:LockStore/cart/desktop/cartdialog_widget.dart';
 import 'package:LockStore/cart/mobile/cartdialog_widget.dart';
+import 'package:LockStore/catalog/catalog.dart';
 import 'package:LockStore/category/category_widget.dart';
 import 'package:LockStore/flutter_flow/nav/nav.dart';
 import 'package:LockStore/home/home_widget.dart';
@@ -29,13 +30,14 @@ class NavBarPageState extends State<NavBarWidget> {
 
   Map<String, Widget> _tabs = {
     'Home': HomePage(),
+    'Catalog': CatalogPage(),
     'Category': CategoryPage(),
   };
 
   @override
   void initState() {
     super.initState();
-    _currentPageName = const HomePage();
+    _currentPageName = CatalogPage();
   }
 
   void changePage(int value, Product product) {
@@ -155,7 +157,7 @@ class NavBarPageState extends State<NavBarWidget> {
                                           onTap: () {
                                             setState(() {
                                               _currentPageName =
-                                                  const CategoryPage();
+                                                  const CatalogPage();
                                             });
                                           },
                                           child: const Text(

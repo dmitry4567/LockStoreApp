@@ -52,6 +52,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'home',
               builder: (context, params) =>
                   const NavBarWidget(initialPage: 'Home'),
+              routes: [
+                FFRoute(
+                  name: 'Catalog',
+                  path: 'catalog',
+                  builder: (context, params) =>
+                      const NavBarWidget(initialPage: 'Catalog'),
+                ),
+              ]
+                  .map(
+                    (r) => r.toRoute(appStateNotifier),
+                  )
+                  .toList(),
             ),
             FFRoute(
               name: 'Favotrites',
@@ -68,7 +80,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'ProductPage',
               path: 'productPage',
-              builder: (context, params) => const NavBarWidget(initialPage: 'ProductPage'),
+              builder: (context, params) =>
+                  const NavBarWidget(initialPage: 'ProductPage'),
             ),
           ]
               .map(

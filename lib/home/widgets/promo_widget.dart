@@ -18,111 +18,114 @@ class _PromoWidgetControllerState extends State<PromoWidgetController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: widget.child is PromoWidgetDesktop
-              ? 774 + 82
-              : MediaQuery.of(context).size.height * 0.7,
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: ScrollConfiguration(
-                  behavior: MouseDraggableScrollBehavior(),
-                  child: PageView(
-                    controller: controller,
-                    onPageChanged: (int page) {
-                      setState(() {
-                        _activePage = page;
-                      });
-                    },
-                    children: [
-                      widget.child,
-                      widget.child,
-                      widget.child,
-                    ],
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Container(
+            height: widget.child is PromoWidgetDesktop
+                ? 774 + 82
+                : MediaQuery.of(context).size.height * 0.7,
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ScrollConfiguration(
+                    behavior: MouseDraggableScrollBehavior(),
+                    child: PageView(
+                      controller: controller,
+                      onPageChanged: (int page) {
+                        setState(() {
+                          _activePage = page;
+                        });
+                      },
+                      children: [
+                        widget.child,
+                        widget.child,
+                        widget.child,
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          width: 300,
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  if (_activePage > 0) {
-                    setState(() {
-                      _activePage -= 1;
-                      controller.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    });
-                  }
-                },
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset("assets/icons/arrow_left.svg"),
-                ),
-              ),
-              const Spacer(),
-              SizedBox(
-                height: 24,
-                child: ListView.builder(
-                  itemCount: 3,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _activePage == index
-                            ? const Color(0xff4295E4)
-                            : const Color(0xffADD7FF),
-                      ),
-                      width: 12,
-                      height: 12,
-                    );
+          Container(
+            width: 300,
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    if (_activePage > 0) {
+                      setState(() {
+                        _activePage -= 1;
+                        controller.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      });
+                    }
                   },
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset("assets/icons/arrow_left.svg"),
+                  ),
                 ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () async {
-                  if (_activePage < 2) {
-                    setState(() {
-                      _activePage += 1;
-                      controller.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease,
+                const Spacer(),
+                SizedBox(
+                  height: 24,
+                  child: ListView.builder(
+                    itemCount: 3,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _activePage == index
+                              ? const Color(0xff4295E4)
+                              : const Color(0xffADD7FF),
+                        ),
+                        width: 12,
+                        height: 12,
                       );
-                    });
-                  }
-                },
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
+                    },
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset("assets/icons/arrow_right.svg"),
+                const Spacer(),
+                InkWell(
+                  onTap: () async {
+                    if (_activePage < 2) {
+                      setState(() {
+                        _activePage += 1;
+                        controller.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      });
+                    }
+                  },
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset("assets/icons/arrow_right.svg"),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
