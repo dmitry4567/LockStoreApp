@@ -4,6 +4,7 @@ import 'package:LockStore/home/model.dart';
 import 'package:LockStore/home/widgets/product.dart';
 import 'package:LockStore/layout/adaptive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class CatalogPage extends StatefulWidget {
@@ -63,7 +64,7 @@ class _CatalogPageState extends State<CatalogPage> {
                           child: Column(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                   left: 100,
                                   right: 100,
                                   top: 82 + 86,
@@ -72,7 +73,7 @@ class _CatalogPageState extends State<CatalogPage> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Все замки",
                                       style: TextStyle(
                                         color: Colors.black,
@@ -81,12 +82,12 @@ class _CatalogPageState extends State<CatalogPage> {
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      "(4)",
-                                      style: TextStyle(
+                                      "(${snapshot.data.length})",
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
                                         fontFamily: "SF",
@@ -96,60 +97,32 @@ class _CatalogPageState extends State<CatalogPage> {
                                   ],
                                 ),
                               ),
-                              // Container(
-                              //   width: double.infinity,
-                              //   height: 200,
-                              //   child: ListView.builder(
-                              //     padding: const EdgeInsets.all(0),
-                              //     shrinkWrap: true,
-                              //     itemCount: snapshot.data.length,
-                              //     scrollDirection: Axis.horizontal,
-                              //     physics: const BouncingScrollPhysics(),
-                              //     itemBuilder: (context, index) {
-                              //       return ProductCard(
-                              //         product:
-                              //             snapshot.data[index] as Product,
-                              //       );
-                              //     },
-                              //   ),
-                              // ),
                               Container(
-                                height: 800,
+                                height:
+                                    MediaQuery.of(context).size.height - 225,
                                 padding: const EdgeInsets.only(
                                   left: 100,
                                   right: 100,
                                 ),
-                                child: GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 40,
-                                    mainAxisSpacing: 40,
+                                child: Expanded(
+                                  child: GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 40,
+                                      mainAxisSpacing: 40,
+                                    ),
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder: (context, index) {
+                                      return ProductCard(
+                                        product:
+                                            snapshot.data[index] as Product,
+                                        margin: false,
+                                      );
+                                    },
                                   ),
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, index) {
-                                    return ProductCard(
-                                      product: snapshot.data[index] as Product,
-                                      margin: false,
-                                    );
-                                  },
                                 ),
                               )
-                              // GridView.builder(
-                              //     primary: false,
-                              //     shrinkWrap: true,
-                              //     physics:
-                              //         const NeverScrollableScrollPhysics(),
-                              //     padding: const EdgeInsets.only(
-                              //       top: 64,
-                              //       left: 100,
-                              //       right: 100,
-                              //     ),
-                              //     crossAxisSpacing: 40,
-                              //     mainAxisSpacing: 40,
-                              //     crossAxisCount: 2,
-                              //     children: [
-
                               //     ]),
                             ],
                           ),
@@ -162,6 +135,90 @@ class _CatalogPageState extends State<CatalogPage> {
                     }
                   }
                 })
-            : const SizedBox());
+            : FutureBuilder<dynamic>(
+                future: getDataProduct(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: CircularProgressIndicator(
+                            color: Color(0xFFFFA000)));
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    if (snapshot.hasData) {
+                      return Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).padding.top,
+                                  bottom: 20,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Все замки",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 26,
+                                        fontFamily: "SF",
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "(${snapshot.data.length})",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontFamily: "SF",
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height -
+                                    MediaQuery.of(context).padding.top,
+                                child: Expanded(
+                                  child: GridView.builder(
+                                    padding: const EdgeInsets.all(0),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 30,
+                                      mainAxisSpacing: 30,
+                                    ),
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder: (context, index) {
+                                      return ProductCard(
+                                        product:
+                                            snapshot.data[index] as Product,
+                                        margin: false,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text("Ошибка получения данных"),
+                      );
+                    }
+                  }
+                }));
   }
 }

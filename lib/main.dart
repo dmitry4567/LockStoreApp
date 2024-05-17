@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         BlocProvider(create: (_) => RegisterBloc()),
       ],
       child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: false,
           routerConfig: _router,
           title: 'LockStore',
           localizationsDelegates: const [

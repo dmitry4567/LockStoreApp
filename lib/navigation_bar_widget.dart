@@ -56,6 +56,7 @@ class NavBarPageState extends State<NavBarWidget> {
     return Scaffold(
       key: _key,
       drawer: Drawer(
+        backgroundColor: Colors.white,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -85,6 +86,7 @@ class NavBarPageState extends State<NavBarWidget> {
                 setState(() {
                   _currentPageName = const HomePage();
                 });
+                Navigator.of(context).pop();
               },
             ),
             ListTile(
@@ -93,6 +95,7 @@ class NavBarPageState extends State<NavBarWidget> {
                 setState(() {
                   _currentPageName = const CatalogPage();
                 });
+                Navigator.of(context).pop();
               },
             ),
           ],
