@@ -1,5 +1,6 @@
 import 'package:LockStore/cart/desktop/cartdialog_widget.dart';
 import 'package:LockStore/cart/mobile/cartdialog_widget.dart';
+import 'package:LockStore/catalog/catalog.dart';
 import 'package:LockStore/category/category_widget.dart';
 import 'package:LockStore/flutter_flow/nav/nav.dart';
 import 'package:LockStore/home/home_widget.dart';
@@ -29,13 +30,14 @@ class NavBarPageState extends State<NavBarWidget> {
 
   Map<String, Widget> _tabs = {
     'Home': HomePage(),
+    'Catalog': CatalogPage(),
     'Category': CategoryPage(),
   };
 
   @override
   void initState() {
     super.initState();
-    _currentPageName = const HomePage();
+    _currentPageName = HomePage();
   }
 
   void changePage(int value, Product product) {
@@ -53,11 +55,59 @@ class NavBarPageState extends State<NavBarWidget> {
 
     return Scaffold(
       key: _key,
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xff4295E4),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Username',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontFamily: "SF",
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              title: const Text('Главная'),
+              onTap: () {
+                setState(() {
+                  _currentPageName = const HomePage();
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              title: const Text('Каталог'),
+              onTap: () {
+                setState(() {
+                  _currentPageName = const CatalogPage();
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: !isDesktop
           ? AppBar(
               backgroundColor: Colors.white,
               leading: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  _key.currentState!.openDrawer();
+                },
                 child: const Icon(
                   Icons.menu,
                   size: 30,
@@ -155,7 +205,7 @@ class NavBarPageState extends State<NavBarWidget> {
                                           onTap: () {
                                             setState(() {
                                               _currentPageName =
-                                                  const CategoryPage();
+                                                  const CatalogPage();
                                             });
                                           },
                                           child: const Text(
@@ -209,10 +259,7 @@ class NavBarPageState extends State<NavBarWidget> {
                                         Row(
                                           children: [
                                             GestureDetector(
-                                              onTap: () {
-                                                _showSimpleDialog(
-                                                    context, isDesktop);
-                                              },
+                                              onTap: () {},
                                               child: SvgPicture.asset(
                                                   width: 32,
                                                   height: 32,
@@ -223,15 +270,17 @@ class NavBarPageState extends State<NavBarWidget> {
                                             ),
                                             InkWell(
                                               onTap: () async {
-                                                final prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
+                                                _showSimpleDialog(
+                                                    context, isDesktop);
+                                                // final prefs =
+                                                //     await SharedPreferences
+                                                //         .getInstance();
 
-                                                setState(() {
-                                                  prefs.clear();
+                                                // setState(() {
+                                                //   prefs.clear();
 
-                                                  context.push("/signIn");
-                                                });
+                                                //   context.push("/signIn");
+                                                // });
                                               },
                                               child: SvgPicture.asset(
                                                   width: 32,

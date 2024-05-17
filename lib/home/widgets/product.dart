@@ -6,9 +6,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatefulWidget {
-  const ProductCard({super.key, required this.product});
+  const ProductCard({super.key, required this.product, required this.margin});
 
   final Product product;
+  final bool margin;
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -25,7 +26,7 @@ class _ProductCardState extends State<ProductCard> {
         navBarWidgetState!.changePage(2, widget.product);
       },
       child: Container(
-        margin: const EdgeInsets.only(right: 30),
+        margin: EdgeInsets.only(right: widget.margin ? 30 : 0),
         width: 288 - 40,
         height: 426,
         decoration: BoxDecoration(
