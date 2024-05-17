@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:LockStore/flutter_flow/flutter_flow_util.dart';
 import 'package:LockStore/navigation_bar_widget.dart';
-import 'package:LockStore/product/product.dart';
 import 'package:LockStore/sign_in/sign_in_widget.dart';
 import 'package:LockStore/sign_up/sign_up_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
 
@@ -52,18 +50,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'home',
               builder: (context, params) =>
                   const NavBarWidget(initialPage: 'Home'),
-              routes: [
-                FFRoute(
-                  name: 'Catalog',
-                  path: 'catalog',
-                  builder: (context, params) =>
-                      const NavBarWidget(initialPage: 'Catalog'),
-                ),
-              ]
-                  .map(
-                    (r) => r.toRoute(appStateNotifier),
-                  )
-                  .toList(),
+            ),
+            FFRoute(
+              name: 'Catalog',
+              path: 'catalog',
+              builder: (context, params) =>
+                  const NavBarWidget(initialPage: 'Catalog'),
             ),
             FFRoute(
               name: 'Favotrites',

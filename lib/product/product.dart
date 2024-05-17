@@ -74,7 +74,6 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     super.initState();
-    print(widget.productId);
     getData();
   }
 
