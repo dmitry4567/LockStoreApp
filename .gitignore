@@ -1,4 +1,6 @@
 # Miscellaneous
+Dockerfile
+
 *.class
 *.log
 *.pyc
