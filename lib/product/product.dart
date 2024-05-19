@@ -481,11 +481,9 @@ class _ProductPageState extends State<ProductPage> {
                                                         width: 15,
                                                       ),
                                                       GestureDetector(
-                                                        onTap: () {},
+                                                        onTap: () {
+                                                        },
                                                         child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
                                                           child: const Row(
                                                             children: [
                                                               Icon(
@@ -726,7 +724,7 @@ class _ProductPageState extends State<ProductPage> {
                                               child: CachedNetworkImage(
                                                 imageUrl:
                                                     "$baseUrl/photoItem/product/${snapshot.data.photos[choosePhoto].fileName}",
-                                                fit: BoxFit.cover,
+                                                fit: BoxFit.contain,
                                                 placeholder: (context, url) =>
                                                     const Center(
                                                         child:

@@ -104,26 +104,23 @@ class _CatalogPageState extends State<CatalogPage> {
                                   left: 100,
                                   right: 100,
                                 ),
-                                child: Expanded(
-                                  child: GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      crossAxisSpacing: 40,
-                                      mainAxisSpacing: 40,
-                                    ),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, index) {
-                                      return ProductCard(
-                                        product:
-                                            snapshot.data[index] as Product,
-                                        margin: false,
-                                      );
-                                    },
+                                child: GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 40,
+                                    mainAxisSpacing: 40,
                                   ),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    return ProductCard(
+                                      product:
+                                          snapshot.data[index] as Product,
+                                      margin: false,
+                                    );
+                                  },
                                 ),
                               )
-                              //     ]),
                             ],
                           ),
                         ),
@@ -189,24 +186,22 @@ class _CatalogPageState extends State<CatalogPage> {
                               SizedBox(
                                 height: MediaQuery.of(context).size.height -
                                     MediaQuery.of(context).padding.top,
-                                child: Expanded(
-                                  child: GridView.builder(
-                                    padding: const EdgeInsets.all(0),
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 30,
-                                      mainAxisSpacing: 30,
-                                    ),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, index) {
-                                      return ProductCard(
-                                        product:
-                                            snapshot.data[index] as Product,
-                                        margin: false,
-                                      );
-                                    },
+                                child: GridView.builder(
+                                  padding: const EdgeInsets.all(0),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 30,
+                                    mainAxisSpacing: 30,
                                   ),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    return ProductCard(
+                                      product:
+                                          snapshot.data[index] as Product,
+                                      margin: false,
+                                    );
+                                  },
                                 ),
                               )
                             ],
