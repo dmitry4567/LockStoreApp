@@ -9,16 +9,10 @@ import 'package:provider/provider.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 
-Future<void> main() async {
+void main() async {
+  FFAppState();
+
   WidgetsFlutterBinding.ensureInitialized();
-
-  FFAppState(); // Initialize FFAppState
-
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
 
   runApp(const MyApp());
 }

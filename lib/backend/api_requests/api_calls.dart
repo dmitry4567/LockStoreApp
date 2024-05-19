@@ -3,7 +3,7 @@ import 'package:scope_function/scope_function.dart';
 import 'api_manager.dart';
 export 'api_manager.dart' show ApiCallResponse;
 
-const baseUrl = "http://localhost:7777/api";
+const baseUrl = "http://178.154.206.159:3031/api";
 
 final dioClient = Dio(
   BaseOptions(
