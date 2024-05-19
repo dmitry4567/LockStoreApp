@@ -481,8 +481,7 @@ class _ProductPageState extends State<ProductPage> {
                                                         width: 15,
                                                       ),
                                                       GestureDetector(
-                                                        onTap: () {
-                                                        },
+                                                        onTap: () {},
                                                         child: Container(
                                                           child: const Row(
                                                             children: [
@@ -663,7 +662,8 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                       );
                     } else {
-                      return Text("fsef");
+                      return const Center(
+                          child: Text("Ошибка получения данных"));
                     }
                   }
                 },
@@ -674,7 +674,8 @@ class _ProductPageState extends State<ProductPage> {
               width: double.infinity,
               height: double.infinity,
               child: FutureBuilder<Product?>(
-                future: data == null ? getDataOneProduct(widget.productId) : null,
+                future:
+                    data == null ? getDataOneProduct(widget.productId) : null,
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -948,14 +949,12 @@ class _ProductPageState extends State<ProductPage> {
                                     child: FFButtonWidget(
                                       onPressed: () async {
                                         addProductToCart(
-                                                snapshot
-                                                    .data.id
-                                                    .toString())
+                                                snapshot.data.id.toString())
                                             .then((_) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                                functions.setupSnackBarInfo(
-                                                    "Товар добавлен в корзину"));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                                  functions.setupSnackBarInfo(
+                                                      "Товар добавлен в корзину"));
                                         });
                                       },
                                       text: 'Купить',
@@ -1116,7 +1115,7 @@ class _ProductPageState extends State<ProductPage> {
                       );
                     }
                   }
-                  return Container();
+                  return const Center(child: Text("Ошибка получения данных"));
                 },
               ),
             ),
