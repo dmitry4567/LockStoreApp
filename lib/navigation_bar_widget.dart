@@ -7,6 +7,7 @@ import 'package:LockStore/home/home_widget.dart';
 import 'package:LockStore/home/model.dart';
 import 'package:LockStore/layout/adaptive.dart';
 import 'package:LockStore/product/product.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -176,7 +177,8 @@ class NavBarPageState extends State<NavBarWidget> {
                                           child: SvgPicture.asset(
                                             width: 50,
                                             height: 42,
-                                            "assets/icons/logo.svg",
+                                            "assets/icons/logo.svg"
+                                                .forWeb(web: kIsWeb),
                                           ),
                                         ),
                                         const SizedBox(
