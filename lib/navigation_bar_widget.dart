@@ -6,6 +6,7 @@ import 'package:LockStore/flutter_flow/nav/nav.dart';
 import 'package:LockStore/home/home_widget.dart';
 import 'package:LockStore/home/model.dart';
 import 'package:LockStore/layout/adaptive.dart';
+import 'package:LockStore/order/order.dart';
 import 'package:LockStore/product/product.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class NavBarWidget extends StatefulWidget {
 
   @override
   State<NavBarWidget> createState() => NavBarPageState();
+
+  void changeWidget(OrderPage orderPage) {}
 }
 
 class NavBarPageState extends State<NavBarWidget> {
@@ -47,7 +50,13 @@ class NavBarPageState extends State<NavBarWidget> {
     });
   }
 
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  void changeWidget(Widget widget) {
+    setState(() {
+      _currentPageName = widget;
+    });
+  }
+
+  final GlobalKey<ScaffoldState> key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +64,7 @@ class NavBarPageState extends State<NavBarWidget> {
     // final currentIndex = _tabs.keys.toList().indexOf(_currentPageName);
 
     return Scaffold(
-      key: _key,
+      key: key,
       drawer: Drawer(
         backgroundColor: Colors.white,
         child: ListView(
@@ -107,7 +116,7 @@ class NavBarPageState extends State<NavBarWidget> {
               backgroundColor: Colors.white,
               leading: GestureDetector(
                 onTap: () {
-                  _key.currentState!.openDrawer();
+                  key.currentState!.openDrawer();
                 },
                 child: const Icon(
                   Icons.menu,
@@ -128,7 +137,7 @@ class NavBarPageState extends State<NavBarWidget> {
                       ),
                       IconButton(
                         onPressed: () {
-                          _showSimpleDialog(context, isDesktop);
+                          _showSimpleDialog(context, isDesktop, key);
                         },
                         icon: SvgPicture.asset(
                             width: 32, height: 32, "assets/icons/shop.svg"),
@@ -222,13 +231,21 @@ class NavBarPageState extends State<NavBarWidget> {
                                         const SizedBox(
                                           width: 32,
                                         ),
-                                        const Text(
-                                          "Оптовая продажа",
-                                          style: TextStyle(
-                                              color: Color(0xff161C24),
-                                              fontSize: 18,
-                                              fontFamily: "SF",
-                                              fontWeight: FontWeight.w300),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _currentPageName =
+                                                  const OrderPage();
+                                            });
+                                          },
+                                          child: const Text(
+                                            "Оптовая продажа",
+                                            style: TextStyle(
+                                                color: Color(0xff161C24),
+                                                fontSize: 18,
+                                                fontFamily: "SF",
+                                                fontWeight: FontWeight.w300),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -273,7 +290,7 @@ class NavBarPageState extends State<NavBarWidget> {
                                             InkWell(
                                               onTap: () async {
                                                 _showSimpleDialog(
-                                                    context, isDesktop);
+                                                    context, isDesktop, key);
                                                 // final prefs =
                                                 //     await SharedPreferences
                                                 //         .getInstance();
@@ -354,11 +371,15 @@ class NavBarPageState extends State<NavBarWidget> {
   }
 }
 
-void _showSimpleDialog(context, bool isDesktop) {
+void _showSimpleDialog(context, bool isDesktop, GlobalKey<ScaffoldState> key) {
   showDialog(
     context: context,
     builder: (dialogContext) {
-      return isDesktop ? const CartDialogDesktop() : const CartDialogMobile();
+      return isDesktop
+          ? CartDialogDesktop(
+              key,
+            )
+          : const CartDialogMobile();
     },
   );
 }
