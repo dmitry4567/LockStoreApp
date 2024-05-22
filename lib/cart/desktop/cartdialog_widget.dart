@@ -135,183 +135,131 @@ class CartDialogState extends State<CartDialogDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(builder: (contextNew, setState) {
-      return SimpleDialog(
-        backgroundColor: Colors.white,
-        contentPadding: EdgeInsets.zero,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(0.0),
-          ),
+    return SimpleDialog(
+      backgroundColor: Colors.white,
+      contentPadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(0.0),
         ),
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 0.6,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 16,
-                    left: 30,
-                    right: 30,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Корзина",
-                        style: TextStyle(
-                          fontFamily: 'SF',
-                          color: Color(0xFF161C24),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.close,
-                          weight: 20,
-                        ),
-                      ),
-                    ],
-                  ),
+      ),
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8,
+          width: MediaQuery.of(context).size.width * 0.6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 18,
+                  bottom: 16,
+                  left: 30,
+                  right: 30,
                 ),
-                const Divider(
-                  height: 0.5,
-                  color: Color(0xffEAEAEA),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Корзина",
+                      style: TextStyle(
+                        fontFamily: 'SF',
+                        color: Color(0xFF161C24),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        weight: 20,
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: FutureBuilder<List<CartItem>>(
-                    future: cartItems,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                            child: CircularProgressIndicator(
-                                color: Color(0xFF4295E4)));
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 30,
-                                  vertical: 24,
-                                ),
-                                color: Colors.white,
-                                child: Row(
-                                  children: [
-                                    CachedNetworkImage(
-                                      width: 136,
-                                      imageUrl:
-                                          "$baseUrl/photoItem/product/${snapshot.data[index].product.photoItems[0].fileName}",
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          const Center(
-                                              child: CircularProgressIndicator(
-                                        color: Color(0xFF4295E4),
-                                      )),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        height: 136,
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 4,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  snapshot.data[index].product
-                                                      .title,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'SF',
-                                                    color: Color(0xFF161C24),
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
+              ),
+              const Divider(
+                height: 0.5,
+                color: Color(0xffEAEAEA),
+              ),
+              Expanded(
+                child: FutureBuilder<List<CartItem>>(
+                  future: cartItems,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                              color: Color(0xFF4295E4)));
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 24,
+                              ),
+                              color: Colors.white,
+                              child: Row(
+                                children: [
+                                  CachedNetworkImage(
+                                    width: 136,
+                                    imageUrl:
+                                        "$baseUrl/photoItem/product/${snapshot.data[index].product.photoItems[0].fileName}",
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                        child: CircularProgressIndicator(
+                                      color: Color(0xFF4295E4),
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      height: 136,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                snapshot
+                                                    .data[index].product.title,
+                                                style: const TextStyle(
+                                                  fontFamily: 'SF',
+                                                  color: Color(0xFF161C24),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    IconButton(
-                                                      onPressed: () async {
-                                                        if (snapshot.data[index]
-                                                                .quantity >
-                                                            1) {
-                                                          updateQuantityProduct(
-                                                              snapshot
-                                                                  .data[index]
-                                                                  .product
-                                                                  .id,
-                                                              snapshot
-                                                                      .data[
-                                                                          index]
-                                                                      .quantity -
-                                                                  1);
-
-                                                          setState(() {
-                                                            snapshot.data[index]
-                                                                .quantity = snapshot
-                                                                    .data[index]
-                                                                    .quantity -
-                                                                1;
-                                                          });
-                                                        }
-                                                      },
-                                                      icon: SvgPicture.asset(
-                                                          "assets/icons/minus.svg"),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: const Color(
-                                                              0xffEAEAEA),
-                                                          width: 1,
-                                                        ),
-                                                      ),
-                                                      width: 60,
-                                                      height: 32,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Text(
-                                                        snapshot.data[index]
-                                                            .quantity
-                                                            .toString(),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    IconButton(
-                                                      onPressed: () async {
+                                              ),
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                    onPressed: () async {
+                                                      if (snapshot.data[index]
+                                                              .quantity >
+                                                          1) {
                                                         updateQuantityProduct(
                                                             snapshot.data[index]
                                                                 .product.id,
                                                             snapshot.data[index]
-                                                                    .quantity +
+                                                                    .quantity -
                                                                 1);
 
                                                         setState(() {
@@ -320,197 +268,236 @@ class CartDialogState extends State<CartDialogDesktop> {
                                                               snapshot
                                                                       .data[
                                                                           index]
-                                                                      .quantity +
+                                                                      .quantity -
                                                                   1;
                                                         });
-                                                      },
-                                                      icon: SvgPicture.asset(
-                                                          "assets/icons/plus.svg"),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () async {
-                                                    await deleteProduct(snapshot
-                                                        .data[index]
-                                                        .product
-                                                        .id);
-                                                    setState(
-                                                      () {
-                                                        cartItems =
-                                                            getCartItems();
-                                                      },
-                                                    );
-                                                  },
-                                                  child: const Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.delete_outline,
+                                                      }
+                                                    },
+                                                    icon: SvgPicture.asset(
+                                                        "assets/icons/minus.svg"),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: const Color(
+                                                            0xffEAEAEA),
+                                                        width: 1,
+                                                      ),
+                                                    ),
+                                                    width: 60,
+                                                    height: 32,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      snapshot
+                                                          .data[index].quantity
+                                                          .toString(),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () async {
+                                                      updateQuantityProduct(
+                                                          snapshot.data[index]
+                                                              .product.id,
+                                                          snapshot.data[index]
+                                                                  .quantity +
+                                                              1);
+
+                                                      setState(() {
+                                                        snapshot.data[index]
+                                                            .quantity = snapshot
+                                                                .data[index]
+                                                                .quantity +
+                                                            1;
+                                                      });
+                                                    },
+                                                    icon: SvgPicture.asset(
+                                                        "assets/icons/plus.svg"),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await deleteProduct(snapshot
+                                                      .data[index].product.id);
+                                                  setState(
+                                                    () {
+                                                      cartItems =
+                                                          getCartItems();
+                                                    },
+                                                  );
+                                                },
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: Color(0xff4295E4),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 4,
+                                                    ),
+                                                    Text(
+                                                      "Удалить",
+                                                      style: TextStyle(
+                                                        fontFamily: 'SF',
                                                         color:
-                                                            Color(0xff4295E4),
+                                                            Color(0xFF4295E4),
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      Text(
-                                                        "Удалить",
-                                                        style: TextStyle(
-                                                          fontFamily: 'SF',
-                                                          color:
-                                                              Color(0xFF4295E4),
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Text(
-                                                  "${snapshot.data[index].product.price.toString()}₽",
-                                                  style: const TextStyle(
-                                                    fontFamily: 'SF',
-                                                    color: Color(0xFF161C24),
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
+                                              ),
+                                              Text(
+                                                "${snapshot.data[index].product.price.toString()}₽",
+                                                style: const TextStyle(
+                                                  fontFamily: 'SF',
+                                                  color: Color(0xFF161C24),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        } else {
-                          return const Center(
-                              child: Text("Ошибка получения данных"));
-                        }
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return const Center(
+                            child: Text("Ошибка получения данных"));
                       }
-                    },
-                  ),
+                    }
+                  },
                 ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    top: 18,
-                    left: 30,
-                    right: 30,
-                    bottom: 18,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            "Итого:",
-                            style: TextStyle(
-                              fontFamily: 'SF',
-                              color: Colors.black,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400,
-                            ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 18,
+                  left: 30,
+                  right: 30,
+                  bottom: 18,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          "Итого:",
+                          style: TextStyle(
+                            fontFamily: 'SF',
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
                           ),
-                          const SizedBox(
-                            width: 8,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "$totalPrice₽",
+                          style: const TextStyle(
+                            fontFamily: 'SF',
+                            color: Color(0xFF161C24),
+                            fontSize: 26,
+                            fontWeight: FontWeight.w500,
                           ),
-                          Text(
-                            "$totalPrice₽",
-                            style: const TextStyle(
-                              fontFamily: 'SF',
-                              color: Color(0xFF161C24),
-                              fontSize: 26,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 249,
-                            height: 44,
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                final navBarWidgetState = widget
-                                    .keyScaffold.currentState!.context
-                                    .findAncestorStateOfType<NavBarPageState>();
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 249,
+                          height: 44,
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              final navBarWidgetState = widget
+                                  .keyScaffold.currentState!.context
+                                  .findAncestorStateOfType<NavBarPageState>();
 
-                                navBarWidgetState!
-                                    .changeWidget(const OrderPage());
+                              navBarWidgetState!
+                                  .changeWidget(const OrderPage());
 
-                                Navigator.pop(context);
-                              },
-                              text: 'Оформить заказ',
-                              options: const FFButtonOptions(
-                                width: double.infinity,
-                                height: double.infinity,
-                                color: Color(0xff4295E4),
-                                elevation: 0,
-                                textStyle: TextStyle(
-                                  fontFamily: 'SF',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 216,
-                            height: 44,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                              color: const Color(0xff4295E4),
-                              width: 1,
-                            )),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                              },
-                              text: 'Продолжить покупки',
-                              options: const FFButtonOptions(
-                                width: double.infinity,
-                                height: double.infinity,
+                              Navigator.pop(context);
+                            },
+                            text: 'Оформить заказ',
+                            options: const FFButtonOptions(
+                              width: double.infinity,
+                              height: double.infinity,
+                              color: Color(0xff4295E4),
+                              elevation: 0,
+                              textStyle: TextStyle(
+                                fontFamily: 'SF',
                                 color: Colors.white,
-                                elevation: 0,
-                                textStyle: TextStyle(
-                                  fontFamily: 'SF',
-                                  color: Color(0xff161C24),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        Container(
+                          width: 216,
+                          height: 44,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: const Color(0xff4295E4),
+                            width: 1,
+                          )),
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              Navigator.pop(context);
+                            },
+                            text: 'Продолжить покупки',
+                            options: const FFButtonOptions(
+                              width: double.infinity,
+                              height: double.infinity,
+                              color: Colors.white,
+                              elevation: 0,
+                              textStyle: TextStyle(
+                                fontFamily: 'SF',
+                                color: Color(0xff161C24),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      );
-    });
+        ),
+      ],
+    );
   }
 }
 
