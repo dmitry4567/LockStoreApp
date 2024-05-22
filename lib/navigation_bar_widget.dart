@@ -375,11 +375,7 @@ void _showSimpleDialog(context, bool isDesktop, GlobalKey<ScaffoldState> key) {
   showDialog(
     context: context,
     builder: (dialogContext) {
-      return isDesktop
-          ? CartDialogDesktop(
-              key,
-            )
-          : const CartDialogMobile();
+      return isDesktop ? CartDialogDesktop(key) : CartDialogMobile(key);
     },
   );
 }

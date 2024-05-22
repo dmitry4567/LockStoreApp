@@ -13,7 +13,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
 class CartDialogMobile extends StatefulWidget {
-  const CartDialogMobile({super.key});
+  const CartDialogMobile(this.keyScaffold, {super.key});
+
+  final GlobalKey<ScaffoldState> keyScaffold;
 
   @override
   State<CartDialogMobile> createState() => _CartDialogMobileState();
@@ -423,7 +425,16 @@ class _CartDialogMobileState extends State<CartDialogMobile> {
                           width: double.infinity,
                           height: 44,
                           child: FFButtonWidget(
-                            onPressed: () async {},
+                            onPressed: () async {
+                              final navBarWidgetState = widget
+                                  .keyScaffold.currentState!.context
+                                  .findAncestorStateOfType<NavBarPageState>();
+
+                              navBarWidgetState!
+                                  .changeWidget(const OrderPage());
+
+                              Navigator.pop(context);
+                            },
                             text: 'Оформить заказ',
                             options: const FFButtonOptions(
                               width: double.infinity,
