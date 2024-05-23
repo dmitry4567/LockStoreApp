@@ -75,16 +75,12 @@ class SignInCall {
 
 class SignUpCall {
   static Future<ApiCallResponse> call({
-    String? nickname = '',
     String? email = '',
-    String? telegram = '',
     String? password = '',
   }) {
     final body = '''
     {
-      "nickname": "$nickname",
       "email": "$email", 
-      "telegram": "$telegram",
       "password": "$password"
     }''';
 

@@ -279,10 +279,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                           padding: const EdgeInsets.only(top: 20),
                           child: InkWell(
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUpWidget()),
-                              );
+                              context.push('/signUp');
                             },
                             child: Text(
                               "Зарегистрироваться",

@@ -8,13 +8,11 @@ sealed class RegisterEvent extends Equatable {
 }
 
 class RegisterAuth extends RegisterEvent {
-  final String nickname;
   final String email;
-  final String telegram;
   final String password;
 
-  const RegisterAuth(this.nickname, this.email, this.telegram, this.password);
+  const RegisterAuth(this.email, this.password);
 
   @override
-  List<Object> get props => [nickname, email, telegram, password];
+  List<Object> get props => [email, password];
 }

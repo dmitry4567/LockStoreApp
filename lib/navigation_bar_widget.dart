@@ -41,7 +41,7 @@ class NavBarPageState extends State<NavBarWidget> {
   @override
   void initState() {
     super.initState();
-    _currentPageName = OrderPage();
+    _currentPageName = const HomePage();
   }
 
   void changePage(int value, Product product) {
