@@ -228,25 +228,6 @@ class NavBarPageState extends State<NavBarWidget> {
                                                 fontWeight: FontWeight.w300),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 32,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              _currentPageName =
-                                                  const OrderPage();
-                                            });
-                                          },
-                                          child: const Text(
-                                            "Оптовая продажа",
-                                            style: TextStyle(
-                                                color: Color(0xff161C24),
-                                                fontSize: 18,
-                                                fontFamily: "SF",
-                                                fontWeight: FontWeight.w300),
-                                          ),
-                                        ),
                                       ],
                                     ),
 

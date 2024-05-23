@@ -911,23 +911,31 @@ class _OrderPageState extends State<OrderPage> {
                                                       horizontal: 24),
                                               child: FFButtonWidget(
                                                 onPressed: () {
-                                                  makeOrder().then((value) {
-                                                    if (value) {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(functions
-                                                              .setupSnackBarInfo(
-                                                                  "Заказ оформлен"));
+                                                  if (totalPrice != 0) {
+                                                    makeOrder().then((value) {
+                                                      if (value) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(functions
+                                                                .setupSnackBarInfo(
+                                                                    "Заказ оформлен"));
 
-                                                      final navBarWidgetState =
-                                                          context.findAncestorStateOfType<
-                                                              NavBarPageState>();
+                                                        final navBarWidgetState =
+                                                            context.findAncestorStateOfType<
+                                                                NavBarPageState>();
 
-                                                      navBarWidgetState!
-                                                          .changeWidget(
-                                                              const HomePage());
-                                                    }
-                                                  });
+                                                        navBarWidgetState!
+                                                            .changeWidget(
+                                                                const HomePage());
+                                                      }
+                                                    });
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(functions
+                                                            .setupSnackBarInfo(
+                                                                "Заказ пустой"));
+                                                  }
                                                 },
                                                 text: 'Подтвердить заказ',
                                                 options: const FFButtonOptions(
@@ -1371,7 +1379,7 @@ class _OrderPageState extends State<OrderPage> {
                                   const Padding(
                                     padding: EdgeInsets.symmetric(
                                       vertical: 16,
-                                      horizontal: 24,
+                                      // horizontal: 24,
                                     ),
                                     child: Text(
                                       "Итого",
