@@ -1,3 +1,3 @@
-# ch_app
+# LockStoreApp
 
-A new Flutter project.
+flutter build web --web-renderer html
