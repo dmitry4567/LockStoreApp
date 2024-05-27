@@ -61,6 +61,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 .showSnackBar(functions.setupSnackBar(state.error));
           }
           if (state is RegisterPass) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(functions.setupSnackBarInfo("Вы успешно зарегистрированы"));
             context.goNamed('signIn');
           }
         },
